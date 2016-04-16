@@ -2,12 +2,17 @@
 
 class UsersController extends Zend_Controller_Action
 {
-	private user_model;
-	//private request_model;
-	private material_model;
-	private course_model;
-	private comment_model;
-	private category_model;
+
+    private $user_model = null;
+
+    private $material_model = null;
+
+    private $course_model = null;
+
+    private $comment_model = null;
+
+    private $category_model = null;
+
     public function init()
     {
         /* Initialize action controller here */
@@ -26,11 +31,27 @@ class UsersController extends Zend_Controller_Action
 
     public function courseAction()
     {
-       	
+       	$course_id = $this->_request->getParam('course_id');
+	$course_data = $this->course_model->getCourseInfo($course_id);
+	$course_comments = $this->comment_model->getCourseReviews($course_id);
+	$this->view->assign('data',$course_data);
+	$this->view->assign('reviews',$course_comments);
+    }
+
+    public function startcourseAction()
+    {
+        $course_id = $this->_request->getParam('course_id');
+	$doc_no = $this->_request->getparam('doc_no');
+	$doc_list = $this->material_model->listDocuments($course_id);
+	$doc = $this->material_model->getDocument($course_id,$doc_no);
+	$this->view->assign('listdata',$doc_list);
+	$this->view->assign('document',$doc);
     }
 
 
 }
+
+
 
 
 
