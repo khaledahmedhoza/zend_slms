@@ -95,7 +95,7 @@ class UsersController extends Zend_Controller_Action
                     if ($result->isValid()) {
                         $auth = Zend_Auth::getInstance();
                         $storage = $auth->getStorage();
-                        $storage->write($adapter->getResultRowObject(array('name' , 'password' , 'email', 'id')));
+                        $storage->write($adapter->getResultRowObject(array('name' , 'password' , 'email', 'id','image')));
                         
                         $this->view->loginFlag="true";
                         $this->_redirect('/');
@@ -128,7 +128,27 @@ class UsersController extends Zend_Controller_Action
         $this->redirect('/');
     }
 
+
+
+
+
+    public function settingsAction(){
+        $form=new Application_Form_User();
+
+        if(Zend_Auth::getInstance()->hasIdentity()){
+
+            $userInfo = Zend_Auth::getInstance()->getStorage()->read();
+
+                if($this->getRequest()->isPost() ){
+
+                  }else{
+                    $this->view->userInfo=$userInfo;
+                  }
+
+        }else{
+            echo "<h3>You Don't have access to here please login first</h3>";
+        }
+         
+    }
+
 }
-
-
-
