@@ -22,9 +22,13 @@
           <actionMethod actionName="index"/>
         </controllerFile>
       </controllersDirectory>
+<<<<<<< HEAD
+      <formsDirectory enabled="false"/>
+=======
       <formsDirectory>
         <formFile formName="User"/>
       </formsDirectory>
+>>>>>>> 269525e656571e16dd04570a797c5d96acdcd4de
       <layoutsDirectory>
         <layoutScriptsDirectory>
           <layoutScriptFile layoutName="layout"/>

@@ -8,7 +8,7 @@ class UsersController extends Zend_Controller_Action
 	private $course_model;
 	private $comment_model;
 	private $category_model;
-    
+
     public function init()
     {
         /* Initialize action controller here */
@@ -25,10 +25,7 @@ class UsersController extends Zend_Controller_Action
         // action body
     }
 
-    public function courseAction()
-    {
-       	
-    }
+
 
     public function registerAction(){
 
