@@ -3,21 +3,52 @@
 	<?php
 		$data_list = $this->listdata;
 		$document = $this->document;
-
-		//var_dump($data_list[0]['id']);
+		
+		//get list of course's documents
 		for($i=0;$i<count($data_list);$i++){
 		$doc = split('/',$data_list[$i]['material'],5);
-		?><a href="<?php echo $this->baseUrl() ?>/users/startcourse/?course_id='<?php $data_list[$i]['course_id']?>'&doc_no='<?php   $data_list[$i]['doc_no']?>'"><p><?php echo $doc[4] ?></p></a><?php
+
+		//get type of file
+		$doc_type = split('\.',$doc[4],2);
+
+		?><a href="<?php echo $this->baseUrl() ?>/users/startcourse/?course_id='<?php echo $data_list[$i]['course_id']?>'&doc_no='<?php  echo $data_list[$i]['doc_no']?>'"><p><?php echo $doc[4] ?></p></a><?php
 		}
 
-		var_dump($document);
-	?>
-	<!--for pdf
-	<iframe src="http://docs.google.com/viewer?url={HT}&embedded=true" width="600" height="380" style="border: none;"></iframe>-->
-
-	<iframe src="https://docs.google.com/document/d/1LdCmW3YvJpgzgbsMh4-iWzd5K_C1hC-Gv-mHt_u3Q5A/edit?usp=sharing" width="600" height="380" style="border: none;"></iframe>
+		//var_dump($document);
+		//echo $document[0]['material']
+	//get my public ip
+	/*$curl_handle=curl_init();
+	curl_setopt($curl_handle,CURLOPT_URL,'http://whatismyip.org/');
+	curl_setopt($curl_handle,CURLOPT_RETURNTRANSFER,1);
+	curl_setopt($curl_handle,CURLOPT_CONNECTTIMEOUT,2);
+	$public_ip = curl_exec($curl_handle);
+	curl_close($curl_handle);*/
+	$locked = $document[0]['is_locked'];
+	if($doc_type=='pdf'){
+		//can't download
+		if($locked!=0){
+		?><iframe src="http://docs.google.com/gview?url=http://app<?php echo $document[0]['material'] ?>&embedded=true" 		style="width:600px; height:500px;" frameborder="0"></iframe> <?php
+		}else{
+			?><iframe src="<?php echo $document[0]['material']?>" width='600' height='380' style="border: none;"></iframe><?php
+		}
+	}else{
+		//can't download
+		if($locked!=0){?>
+		 	<iframe src="<?php echo $document[0]['material'] ?>" width="600" height="380" style="border: none;"></iframe>
+		<?php } else { ?>
+			<a href="<?php echo $document[0]['material']?>" download><button>download</button></a>
+			<iframe src="<?php echo $document[0]['material'] ?>" width="600" height="380" style="border: none;"></iframe>
+		<?php }
+	}
+		?>
+	<!--for pdf /slms/materials/mongo/lovestory.mp4-->
 	
+	
+
+
+<!--	<iframe src="http://docs.google.com/gview?url=https://xml.apache.org/xindice/license.pdf&embedded=true" style="width:600px; height:500px;" frameborder="0"></iframe>-->
 	<!--for video <iframe width="420" height="315"
 src="http://www.youtube.com/embed/XGSy3_Czz8k?autoplay=1">
 </iframe> -->
 </div>
+
