@@ -1,0 +1,14 @@
+<?php
+
+if(isset($this->userInfo)){
+	// var_dump($this->userInfo);
+
+	echo "Profile Picture:- <img src='/images/upload/". basename($this->userInfo->image)."'/>";        
+
+	echo "<h2> Name :".$this->userInfo->name."</h2>";
+	echo "<h2> Email:".$this->userInfo->email."</h2>";
+	echo "<h2> Password : ".$this->userInfo->password."</h2>";
+
+}
+echo $this->form;
+?>

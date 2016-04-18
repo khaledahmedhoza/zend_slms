@@ -8,7 +8,13 @@ class Application_Model_Comments extends Zend_Db_Table_Abstract
 	function getCourseReviews($course_id){
 		$db = Zend_Db_Table_Abstract::getDefaultAdapter();
 		 $select = $db->select()->from("comments")->where("course_id=$course_id");
-		return $result = $db->query($select);
+		return $result = $db->query($select)->fetchAll();
+	}
+
+	function getCourseComments($course_id){
+		$dbd = Zend_Db_Table_Abstract::getDefaultAdapter();
+		 $select = $dbd->select()->from("comments")->where("course_id=$course_id");
+		return $result = $dbd->query($select)->fetchAll();
 	}
 
 }

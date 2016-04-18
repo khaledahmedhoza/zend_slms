@@ -10,12 +10,19 @@ resources.frontController.params.displayExceptions = 1
 
 resources.db.adapter = "Pdo_Mysql"
 resources.db.params.host = "localhost"
-resources.db.params.username = "root"
-resources.db.params.password = "123"
+resources.db.params.username = "zahra"
+resources.db.params.password = "iti"
 resources.db.params.dbname = "zend"
 resources.layout.layoutPath = APPLICATION_PATH "/layouts/scripts/"
+<<<<<<< HEAD
 resources.view[] = 
 
+=======
+
+resources.view[] = 
+
+
+>>>>>>> 6500173a4bc9cfc1787fca343c15c6541199c0fa
 [staging : production]
 
 [testing : production]

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Apr 15, 2016 at 03:21 PM
+-- Generation Time: Apr 15, 2016 at 06:09 PM
 -- Server version: 5.5.47-0ubuntu0.14.04.1
 -- PHP Version: 5.5.9-1ubuntu4.14
 
@@ -61,6 +61,9 @@ CREATE TABLE IF NOT EXISTS `courses` (
   `course_desc` varchar(1000) NOT NULL,
   `duration` float NOT NULL,
   `student_no` int(11) NOT NULL,
+  `language` varchar(30) NOT NULL,
+  `skill_level` varchar(70) NOT NULL,
+  `instructor` varchar(70) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `category_id` (`category_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;

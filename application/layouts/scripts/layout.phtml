@@ -61,22 +61,43 @@
 						</button>
 					</form>
 					<ul class="nav navbar-nav navbar-right">
-						<li>
+						<!-- <li>
 							<a href="/about-us">About Us</a>
-						</li>
+						</li> -->
 						
-						<li>
 						<?php
 							if(Zend_Auth::getInstance()->hasIdentity()){
 								$userInfo = Zend_Auth::getInstance()->getStorage()->read();
-                    			echo "Welcome <strong>".$userInfo->name."</strong>";
-                    			echo "</li";
+								echo "<li>";
+                    			echo "<a id='WelcomeUsername'>Welcome <strong>".$userInfo->name."</strong></a>";
+                    			echo "</li>";
+                    			
+							}      				       
+						 ?>
+						 <?php
+							if(Zend_Auth::getInstance()->hasIdentity()){
+								$userInfo = Zend_Auth::getInstance()->getStorage()->read();
+                    			// echo "<li>";
+                    			// // echo "<a href='/users/settings'>Settings</a>";
+                    			// echo "</li>";
                     			echo "<li>";
                     			echo "<a href='/users/logout'>LogOut</a>";
                     			echo "</li>";
-							}
-						        				       
+							}      				       
 						 ?>
+						  <?php
+							if(Zend_Auth::getInstance()->hasIdentity()){
+								$userInfo = Zend_Auth::getInstance()->getStorage()->read();
+                    			echo "<li>";
+                    			echo "<a href='/users/settings'>Settings</a>";
+                    			echo "</li>";
+                    			// echo "<li>";
+                    			// // echo "<a href='/users/logout'>LogOut</a>";
+                    			// echo "</li>";
+							}      				       
+						 ?>
+						 <!-- Categories for non Users || Settings for User Edit profile  Links  -->
+						        
 					</ul>
 				</div>
 				
@@ -86,10 +107,7 @@
 
 
 	<div class="row">
-	<div class="col-md-2">
-
-	</div>
-		<div class="col-md-6">
+		<div class="col-md-12">
 
 								
 			<!-- <div class="panel panel-default">
@@ -106,10 +124,6 @@
 				</div>
 			</div -->
 			<?php echo $this->layout()->content; ?>
-		</div>
-		<div class="col-md-4">
-			<!-- <?php //echo $this->layout()->content; ?> -->
-
 		</div>
 	</div>
 
@@ -132,3 +146,4 @@
 
 </body>
 </html>
+

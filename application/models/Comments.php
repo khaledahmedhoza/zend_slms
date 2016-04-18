@@ -11,5 +11,6 @@ class Application_Model_Comments extends Zend_Db_Table_Abstract
 		return $result = $db->query($select)->fetchAll();
 	}
 
+
 }
 

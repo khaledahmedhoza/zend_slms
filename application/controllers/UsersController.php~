@@ -4,6 +4,7 @@ class UsersController extends Zend_Controller_Action
 {
 
 
+
     private $user_model = null;
 
     private $material_model = null;
@@ -14,8 +15,6 @@ class UsersController extends Zend_Controller_Action
 
     private $category_model = null;
 
-
-    
 
     public function init()
     {
@@ -48,12 +47,11 @@ class UsersController extends Zend_Controller_Action
 	$doc_no = $this->_request->getparam('doc_no');
 	$doc_list = $this->material_model->listDocuments($course_id);
 	$doc = $this->material_model->getDocument($course_id,$doc_no);
+	$comments = $this->comment_model->
 	$this->view->assign('listdata',$doc_list);
 	$this->view->assign('document',$doc);
-	$authorization = Zend_Auth::getInstance();
-	$user_ban = $authorization->getIdentity()->is_banned;
-	$this->view->assign('user_access',$user_ban);
     }
+
 
     public function registerAction(){
 
@@ -120,7 +118,9 @@ class UsersController extends Zend_Controller_Action
                     if ($result->isValid()) {
                         $auth = Zend_Auth::getInstance();
                         $storage = $auth->getStorage();
-                        $storage->write($adapter->getResultRowObject(array('name' , 'password' , 'email', 'id','is_banned')));
+
+                        $storage->write($adapter->getResultRowObject(array('name' , 'password' , 'email', 'id','image','is_banned')));
+
                         
                         $this->view->loginFlag="true";
                         $this->_redirect('/');
@@ -153,9 +153,29 @@ class UsersController extends Zend_Controller_Action
         $this->redirect('/');
     }
 
+
+
+
+
+
+    public function settingsAction(){
+        $form=new Application_Form_User();
+
+        if(Zend_Auth::getInstance()->hasIdentity()){
+
+            $userInfo = Zend_Auth::getInstance()->getStorage()->read();
+
+                if($this->getRequest()->isPost() ){
+
+                  }else{
+                    $this->view->userInfo=$userInfo;
+                  }
+
+        }else{
+            echo "<h3>You Don't have access to here please login first</h3>";
+        }
+         
+    }
+
 }
-
-
-
-
 
