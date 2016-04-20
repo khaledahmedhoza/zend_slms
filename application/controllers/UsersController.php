@@ -27,7 +27,7 @@ class UsersController extends Zend_Controller_Action
 
 
 
-    public function registerAction(){
+    public function registerAction(){   
 
     	$form=new Application_Form_User();
 
@@ -46,6 +46,7 @@ class UsersController extends Zend_Controller_Action
                 
                 $data['image']=$fullFilePath;
 
+              
                 if($this->user_model->register($data)){
                     $this->redirect('/');
                 // }
@@ -63,19 +64,28 @@ class UsersController extends Zend_Controller_Action
 
 
     public function loginAction(){
+
+        $form=new Application_Form_User();
+        //////////////login after update element/////////////
+        $username = $this->_getParam('username');
+       
+        if(isset($username)){
+            $form->Username->setValue($username);
+            $this->render('login');
+        }
+        ///////////////////////////////////////////////////////
+
         $userName=$this->getRequest()->getParam('Username');
         $password=$this->getRequest()->getParam('password');
 
-        $form=new Application_Form_User();
+       
         // $form->getElement('Username')->removeValidator('Db_NoRecordExists');
 
         $db = Zend_Db_Table::getDefaultAdapter();
 
+     ///Validation With Form /////////////////////////////////////////////////
 
-
-///Validation With Form /////////////////////////////////////////////////
-
-//&& $form->isValid($this->getRequest()->getPost())
+      //&& $form->isValid($this->getRequest()->getPost())
         if($this->getRequest()->isPost() ){
         
                  $adapter = new Zend_Auth_Adapter_DbTable(
@@ -92,7 +102,7 @@ class UsersController extends Zend_Controller_Action
                     if ($result->isValid()) {
                         $auth = Zend_Auth::getInstance();
                         $storage = $auth->getStorage();
-                        $storage->write($adapter->getResultRowObject(array('name' , 'password' , 'email', 'id','image')));
+                        $storage->write($adapter->getResultRowObject(array('name' , 'password' , 'email', 'id','image','username')));
                         
                         $this->view->loginFlag="true";
                         $this->_redirect('/');
@@ -121,11 +131,20 @@ class UsersController extends Zend_Controller_Action
     }
 
     public function logoutAction(){
+        $username = $this->_getParam('username');
+
+        if(isset($username)){
+            
+            // echo $username;
+            // die();
+            Zend_Auth::getInstance()->clearIdentity();
+            $this->redirect('/users/login/username/'.$username);
+        }
+
         Zend_Auth::getInstance()->clearIdentity();
         $this->redirect('/');
+
     }
-
-
 
 
 
@@ -137,8 +156,30 @@ class UsersController extends Zend_Controller_Action
             $userInfo = Zend_Auth::getInstance()->getStorage()->read();
 
                 if($this->getRequest()->isPost() ){
+                    //update image/////////////////////////////////////////////////////
+                    $userInfo = Zend_Auth::getInstance()->getStorage()->read();
+
+                    $userName=$userInfo->username;
+                    $id = $userInfo->id;
+                    $data = $this->getRequest()->getParams();
+                   
+                    $uploadedData = $form->getValues();
+                    $fullFilePath = $form->image->getFileName();
+
+                    $image=$fullFilePath;
+
+                    $this->user_model->updateImage($id,$image);
+                    $this->redirect('users/logout/username/'.$userName);
 
                   }else{
+                    $form->removeElement('age');
+                    $form->removeElement('email');
+                    $form->removeElement('Username');
+                    $form->removeElement('name');
+                    $form->removeElement('password');
+                    // $form->removeElement('Submit');
+
+                    $this->view->form=$form;
                     $this->view->userInfo=$userInfo;
                   }
 
@@ -148,4 +189,49 @@ class UsersController extends Zend_Controller_Action
          
     }
 
+
+
+
+    public function updateElemAction(){
+
+        if(Zend_Auth::getInstance()->hasIdentity()){
+            $userInfo = Zend_Auth::getInstance()->getStorage()->read();
+
+            $userName=$userInfo->username;
+
+            $id = $userInfo->id;
+            $elements = $this->getRequest()->getParams();
+
+            foreach($elements as $key => $val){
+                    $newName = $val;   
+                    $element = $key;
+            }    
+
+            $this->user_model->updateElement($id,$newName,$element);
+
+
+            //////////////Update Storage after update any element.///////////////////////////
+
+            // Zend_Auth::getInstance()->getStorage()->write($element);
+
+
+            // $db = Zend_Db_Table::getDefaultAdapter();
+            
+
+            // $adapter = new Zend_Auth_Adapter_DbTable(
+            //         $db,
+            //         'users',
+            //         'username',
+            //         'password'
+            //         );
+
+            // $adapter->setIdentity(Zend_Auth::getInstance()->getIdentity());
+            
+            // Zend_Auth::getInstance()->getStorage()->write($adapter->getResultRowObject(array('name' , 'password' , 'email', 'id','image')));
+
+            $this->redirect('users/logout/username/'.$userName);
+
+        }
+
+    }
 }
