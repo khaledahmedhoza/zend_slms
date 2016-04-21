@@ -25,6 +25,46 @@ class UsersController extends Zend_Controller_Action
         // action body
     }
 
+    public function searchAction()
+    { 
+        //======Simple search======//
+       $Cname = $this->getRequest()->getparam('search');
+       //check if there are data or not 
+       if($this->getRequest()->isPost()){
+            if ($result=$this->course_model->getCourses($Cname)){
+                    $this->view->search = $result;
+
+            }
+        }
+        //=======Search adv=======//
+        $category = $this->getRequest()->getparam('category');
+        if($this->getRequest()->isGet())
+        {
+            $data=$this->getRequest()->getParams();
+            ///send cat name and get cat id 
+            if($this->category_model->getCatId($data)) { 
+                for($i=0; $i<count($this->category_model->getCatId($data)); $i++){
+                    $cat=$this->category_model->getCatId($data)[$i]['id'];
+                    //print_r($cat);
+                }    
+            }
+            if ($totalData=$this->course_model->getData($data,$cat)){
+                    $this->view->data = $totalData;
+
+            }
+        }
+
+        //==========list categories=====>>>
+        $catData=$this->category_model->listCat();
+        $this->view->catData = $catData;
+
+        //=========List courses=========>>>
+        $courseData=$this->course_model->listCourses();
+        $this->view->courseData = $courseData;
+
+
+    }
+
 
 
     public function registerAction(){

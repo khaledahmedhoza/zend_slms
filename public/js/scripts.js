@@ -1,13 +1,13 @@
 // Empty JS for your own code to be here
-// $("#search").click(function(event){
-// 	var data = $("#query").val();
+// $("#skill").click(function(event){
+// 	var data = $("#skill").val();
 // 	console.log(data);
 
 // 	$.ajax({
-//     url:"/test",
+//     url:"/testAj",
 //     type: 'GET',
 //     data:data,
-//     dataType: 'json',
+//     dataType:'json',
 //     success:function(res){
 //        console.log("success");
 //        //console.log(res.data);
