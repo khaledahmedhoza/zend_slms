@@ -1,0 +1,18 @@
+<?php echo $this->headTitle("Add Category") ?>
+<?php echo $this->layout()->content; ?>
+<h1> Add Category </h1>
+<br /><br />
+<div class="row">
+	<div class="col-md-12">
+		<div class="container-fluid">
+			
+					<form action="/admin/addcategory" method="post">
+			        	Category Name:<input type="text" name="category_name">
+			        	<br> <br>
+ 						<input type="submit" value="Add" class="btn btn-info btn-md">
+ 						<br> <br>
+ 					</form>	
+
+		</div>
+	</div>
+</div>	

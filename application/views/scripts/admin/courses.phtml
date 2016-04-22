@@ -1,0 +1,42 @@
+<?php echo $this->headTitle("Courses") ?>
+<?php echo $this->layout()->content; ?>
+<h1>Courses </h1>
+<br /><br />
+<div class="row">
+	<div class="col-md-12">
+		<div class="container-fluid">
+			<table class="table table-bordered">
+				<thead>
+					<th>ID</th>
+					<th>Course Name</th>
+					<th>Course Description</th>
+					<th>Language</th>
+					<th>Skill Level</th>
+					<th>Course Duration</th>
+					<th>Instructor</th>
+					<th>Image</th>
+					<th>Delete</th>
+					<th>Edit</th>
+				</thead>	
+				<?php if($this->Data){for($i=0; $i<count($this->Data); $i++){?>
+				<tr>
+					<td name="id"> <?php echo $this->Data[$i]['id']; ?> </td>
+					<td name="course_name"> <?php echo $this->Data[$i]['course_name']; ?> </td>
+					<td name="course_desc"> <?php echo $this->Data[$i]['course_desc']; ?> </td>
+					<td name="language"> <?php echo $this->Data[$i]['language']; ?> </td>
+					<td name="skill_level"> <?php echo $this->Data[$i]['skill_level']; ?> </td>
+					<td name="duration"> <?php echo $this->Data[$i]['duration']; ?> </td>
+					<td name="instructor"> <?php echo $this->Data[$i]['instructor']; ?> </td>
+					<td name="image"> <?php echo $this->Data[$i]['image']; ?> </td>
+					<td>
+						<?php echo '<a type="button" class="btn btn-info btn-md" href="'.$this->baseUrl().'/admin/deletecour/id/'.$this->Data[$i]['id'].'"> Delete</a>'?>						
+					</td>
+					<td>
+						<?php echo '<a type="button" class="btn btn-info btn-md" href="'.$this->baseUrl().'/admin/editcourse/id/'.$this->Data[$i]['id'].'" > Edit</a>'?>	
+					</td>	
+						
+<!-- '<button type="button" class="btn btn-info btn-md" data-toggle="modal" data-target="test">
+ -->				
+				</tr>
+				<?php } } ?>
+			</table>

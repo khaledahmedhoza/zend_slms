@@ -30,4 +30,45 @@ class Application_Model_Courses extends Zend_Db_Table_Abstract
 		return $this->fetchAll($select);
 	}
 
+	//============views======
+	function addCourse ($data){
+		// $row->category_name = $data['cat'];
+		// return $row->save();
+
+		if (isset($data['module']))
+				unset($data['module']);
+			if (isset($data['controller']))
+				unset($data['controller']);
+			if (isset($data['action']))
+				unset($data['action']);
+			if (isset($data['submit']))
+				unset($data['submit']);
+			if(isset($data['MAX_FILE_SIZE'])) 
+				unset($data['MAX_FILE_SIZE']);
+
+			$this->insert($data);
+	}	
+
+	function deleteCourse($id){
+		return $this->delete('id='.$id);
+	}
+
+	function getCourseById($id){
+		return $this->find($id)->toArray();
+	}
+
+	function updateCourse($data , $id){
+		$arr = array(
+			  'course_name' => $data['course_name'],
+			  'course_desc' => $data['course_desc'],
+			  'category_id' => $data['category_id'],
+			  'duration' => $data['duration'],
+			  'language' => $data['language'],
+			  'instructor' => $data['instructor'],
+			  'image' => $data['image']
+		    );
+		$id=$data['id'];
+		$this->update($arr,'id ='.$id);
+	}
+
 }

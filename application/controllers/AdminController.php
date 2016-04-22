@@ -25,20 +25,20 @@ class AdminController extends Zend_Controller_Action
         $this->view->Data = $catData;
 
         //======Add Cat=====
-        $data = $this->getRequest()->getparams();
-       //check if there are data or not 
-       if($this->getRequest()->isPost()){
-          $this->category_model->addCat($data);
-        }
+       //  $data = $this->getRequest()->getparams();
+       // //check if there are data or not 
+       // if($this->getRequest()->isPost()){
+       //    $this->category_model->addCat($data);
+       //  }
         //======Edit Cat===== 1-list
-        $id = $this->getRequest()->getParam('id');
-        $cat = $this->category_model->getCatById($id);
-        $this->view->form = $cat;
-        //======Edit Cat===== 2-update
-        if($this->getRequest()->isPut()){
-          $data = $this->getRequest()->getparams();
-          $this->category_model->updateCat($data, $id);
-        }       	
+        // $id = $this->getRequest()->getParam('id');
+        // $cat = $this->category_model->getCatById($id);
+        // $this->view->form = $cat;
+        // //======Edit Cat===== 2-update
+        // if($this->getRequest()->isPut()){
+        //   $data = $this->getRequest()->getparams();
+        //   $this->category_model->updateCat($data, $id);
+        // }       	
 
 	}
 
@@ -48,29 +48,82 @@ class AdminController extends Zend_Controller_Action
 		$this->redirect('admin/categories');
 	}
 
-	public function addAction(){
-		$this->_helper->layout->disableLayout();
-        $this->_helper->viewRenderer->setNoRender(true);
-        
+	public function addcategoryAction(){
+		// $this->_helper->layout->disableLayout();
+  //       $this->_helper->viewRenderer->setNoRender(true);
+
 		$data = $this->getRequest()->getparams();
        //check if there are data or not 
        if($this->getRequest()->isPost()){
           $this->category_model->addCat($data);
-		}
+          $this->redirect('admin/categories');
+		  }
 	}
 
-	// public function editAction(){
-	// 	//List data in modal to edit  
- //        $id = $this->getRequest()->getParam('id');
- //        $cat = $this->category_model->getCatById($id);
- //        $this->view->form = $cat;
+	public function editcategoryAction(){
+		//List data in modal to edit  
+        $id = $this->getRequest()->getParam('id');
+        $cat = $this->category_model->getCatById($id);
+        $this->view->form = $cat;
 
- //    	//Get data from form with post method     
- //        if($this->getRequest()->isPost()){
- //            $data = $this->getRequest()->getparams();
- //                //$data->id=$id;
- //               $this->category_model->updateCat($data, $id);
- //        }
- //    }
+    	//Get data from form with post method     
+        if($this->getRequest()->isPost()){
+            $data = $this->getRequest()->getparams();
+            $this->category_model->updateCat($data, $id);
+            $this->redirect('admin/categories');
+        }
+    }
+
+    //==========courses==========
+    public function coursesAction(){
+
+		$courseData=$this->course_model->listCourses();
+        $this->view->Data = $courseData;
+    }    
+
+    public function addcourseAction(){
+        $form = new Application_Form_Courses();
+        $this->view->form=$form;
+
+        $data = $this->getRequest()->getparams();
+       //check if there are data or not 
+       if($this->getRequest()->isPost()){
+            if($form->isValid($data)){
+                if ($this->course_model->addCourse($data))
+                $this->redirect('admin/courses');  
+            }   
+        }
+        $this->view->flag = 1;
+        $this->view->form = $form;
+        $this->render('addcourse');    
+
+    }
+
+  public function deletecourAction(){
+		$id = $this->getRequest()->getparam('id');
+		$this->course_model->deleteCourse($id);
+		$this->redirect('admin/courses');
+	}    
+
+  public function editcourseAction(){
+    //List data in modal to edit  
+        $id = $this->getRequest()->getParam('id');
+        $form = new Application_Form_Courses();
+        $course = $this->course_model->getCourseById($id);
+
+      //Get data from form with post method     
+        if($this->getRequest()->isPost()){
+            $data = $this->getRequest()->getparams();
+            if($form->isValid($data)){
+                $this->course_model->updateCourse($data, $id);
+                $this->redirect('admin/courses');
+            }
+
+        }
+        $form->populate($course[0]);
+        $this->view->form = $form;
+        $this->render('addcourse');
+
+    }
 
 }

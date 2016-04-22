@@ -20,8 +20,19 @@ class Application_Model_Categories extends Zend_Db_Table_Abstract
 	}
 
 	function addCat ($data){
-		$row->category_name = $data['cat'];
-		return $row->save();
+		// $row->category_name = $data['cat'];
+		// return $row->save();
+
+		if (isset($data['module']))
+				unset($data['module']);
+			if (isset($data['controller']))
+				unset($data['controller']);
+			if (isset($data['action']))
+				unset($data['action']);
+			if (isset($data['submit']))
+				unset($data['submit']);
+
+			$this->insert($data);
 	}	
 
 	function deleteCat($id){
@@ -32,8 +43,11 @@ class Application_Model_Categories extends Zend_Db_Table_Abstract
 	}
 
 	function updateCat($data , $id){
-		$arr=$data['catName'];
-		$this->update($arr, 'id ='.$id);
+		$arr = array(
+			  'category_name' => $data['category_name']
+		    );
+		$id=$data['id'];
+		$this->update($arr,'id ='.$id);
 	}
 
 }

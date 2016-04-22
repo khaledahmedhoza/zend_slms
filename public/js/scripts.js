@@ -1,22 +1,22 @@
 // Empty JS for your own code to be here
 // $(document).ready(function () {
-  $("#addAj").click(function(event){
-  var data = $("#addname").val();
-  console.log(data);
+//   $("#addAj").click(function(event){
+//   var data = $("#addname").val();
+//   console.log(data);
 
-  $.ajax({
-    url:"/add",
-    type: 'POST',
-    data:data,
-    dataType:'json',
-    success:function(res){
-       console.log("success");
-       //console.log(res.data);
-       //$("#count").text(res.price)
-      }
-    });
- event.preventDefault();
-});
+//   $.ajax({
+//     url:"/add",
+//     type: 'POST',
+//     data:data,
+//     dataType:'json',
+//     success:function(res){
+//        console.log("success");
+//        //console.log(res.data);
+//        //$("#count").text(res.price)
+//       }
+//     });
+//  event.preventDefault();
+// });
 // });
 
 //=======================

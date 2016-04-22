@@ -3,19 +3,22 @@
 <!DOCTYPE html>
 <html>
 <head>
-		 <!-- Latest compiled and minified CSS -->
+	
 	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+	<!--  
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script> 
+	-->
 
-	<!-- jQuery library -->
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-
-	<!-- Latest compiled JavaScript -->
-	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 <?php echo $this->headMeta(); ?>
 <?php echo $this->headTitle() ?>
 <?php echo $this->headLink() ?>
-<?php echo $this->headScript()->appendFile($this->basePath().'/js/jquery.min.js')
-				->appendFile($this->basePath().'/js/scripts.js'); ?>
+<?php echo $this->headScript()->appendFile($this->baseUrl().'/js/jquery.min.js')
+				->appendFile($this->baseUrl().'/js/jquery.js')
+				->appendFile($this->baseUrl().'/js/jquery-ui.min.js')
+				->appendFile($this->baseUrl().'/js/bootstrap.min.js')
+				->appendFile($this->baseUrl().'/js/scripts.js'); ?>
+
 
 </head>
 <body>
