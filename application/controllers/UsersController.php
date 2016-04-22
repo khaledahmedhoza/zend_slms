@@ -37,9 +37,9 @@ class UsersController extends Zend_Controller_Action
             }
         }
         //=======Search adv=======//
-        $category = $this->getRequest()->getparam('category');
         if($this->getRequest()->isGet())
         {
+            $category = $this->getRequest()->getparam('category');
             $data=$this->getRequest()->getParams();
             ///send cat name and get cat id 
             if($this->category_model->getCatId($data)) { 

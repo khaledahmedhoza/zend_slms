@@ -6,6 +6,7 @@ class Application_Form_Courses extends Zend_Form
     public function init()
     {
     	// $this->setAttrib('enctype', 'multipart/form-data');
+      $form->setEnctype(Zend_Form::ENCTYPE_MULTIPART);
 
 
         $id = new Zend_Form_Element_Hidden("id");
