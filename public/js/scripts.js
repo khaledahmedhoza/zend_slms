@@ -1,21 +1,24 @@
 // Empty JS for your own code to be here
-// $("#skill").click(function(event){
-// 	var data = $("#skill").val();
-// 	console.log(data);
+// $(document).ready(function () {
+  $("#addAj").click(function(event){
+  var data = $("#addname").val();
+  console.log(data);
 
-// 	$.ajax({
-//     url:"/testAj",
-//     type: 'GET',
-//     data:data,
-//     dataType:'json',
-//     success:function(res){
-//        console.log("success");
-//        //console.log(res.data);
-//        //$("#count").text(res.price)
-//       }
-//     });
-//  event.preventDefault();
+  $.ajax({
+    url:"/add",
+    type: 'POST',
+    data:data,
+    dataType:'json',
+    success:function(res){
+       console.log("success");
+       //console.log(res.data);
+       //$("#count").text(res.price)
+      }
+    });
+ event.preventDefault();
+});
 // });
+
 //=======================
 function showUser(str) {
   if (str=="") {

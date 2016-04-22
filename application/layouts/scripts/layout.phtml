@@ -3,14 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<?php echo $this->headMeta(); ?>
-<?php echo $this->headTitle() ?>
-<?php echo $this->headLink() ?>
-<?php echo $this->headScript() ?>
-
-
-	<!-- <title>Blog</title>
-	 <! Latest compiled and minified CSS -->
+		 <!-- Latest compiled and minified CSS -->
 	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 
 	<!-- jQuery library -->
@@ -18,6 +11,12 @@
 
 	<!-- Latest compiled JavaScript -->
 	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<?php echo $this->headMeta(); ?>
+<?php echo $this->headTitle() ?>
+<?php echo $this->headLink() ?>
+<?php echo $this->headScript()->appendFile($this->basePath().'/js/jquery.min.js')
+				->appendFile($this->basePath().'/js/scripts.js'); ?>
+
 </head>
 <body>
 
@@ -61,22 +60,43 @@
 						</button>
 					</form>
 					<ul class="nav navbar-nav navbar-right">
-						<li>
+						<!-- <li>
 							<a href="/about-us">About Us</a>
-						</li>
+						</li> -->
 						
-						<li>
 						<?php
 							if(Zend_Auth::getInstance()->hasIdentity()){
 								$userInfo = Zend_Auth::getInstance()->getStorage()->read();
-                    			echo "Welcome <strong>".$userInfo->name."</strong>";
-                    			echo "</li";
+								echo "<li>";
+                    			echo "<a id='WelcomeUsername'>Welcome <strong>".$userInfo->name."</strong></a>";
+                    			echo "</li>";
+                    			
+							}      				       
+						 ?>
+						 <?php
+							if(Zend_Auth::getInstance()->hasIdentity()){
+								$userInfo = Zend_Auth::getInstance()->getStorage()->read();
+                    			// echo "<li>";
+                    			// // echo "<a href='/users/settings'>Settings</a>";
+                    			// echo "</li>";
                     			echo "<li>";
                     			echo "<a href='/users/logout'>LogOut</a>";
                     			echo "</li>";
-							}
-						        				       
+							}      				       
 						 ?>
+						  <?php
+							if(Zend_Auth::getInstance()->hasIdentity()){
+								$userInfo = Zend_Auth::getInstance()->getStorage()->read();
+                    			echo "<li>";
+                    			echo "<a href='/users/settings'>Profile</a>";
+                    			echo "</li>";
+                    			// echo "<li>";
+                    			// // echo "<a href='/users/logout'>LogOut</a>";
+                    			// echo "</li>";
+							}      				       
+						 ?>
+						 <!-- Categories for non Users || Settings for User Edit profile  Links  -->
+						        
 					</ul>
 				</div>
 				

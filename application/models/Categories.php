@@ -30,14 +30,11 @@ class Application_Model_Categories extends Zend_Db_Table_Abstract
 	function getCatById($id){
 		return $this->find($id)->toArray();
 	}
-	function editCat($id, $data){
-			return $this->fetchAll()->toArray();
-		}
 
-		function updateCat($data , $id){
-			$arr=$data['cat'];
-		    $this->update($arr, 'id ='.$id);
-		}
+	function updateCat($data , $id){
+		$arr=$data['catName'];
+		$this->update($arr, 'id ='.$id);
+	}
 
 }
 

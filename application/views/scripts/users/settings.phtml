@@ -1,0 +1,72 @@
+
+<div class="row">
+		<div class="col-md-3">
+
+		</div>
+		<div class="col-md-6">
+			<?php
+
+
+				if(isset($this->userInfo)){
+					// var_dump($this->userInfo);
+					echo "<table>";
+					// echo "<form action='/users/update-image' method='post'>";
+					echo "<tr>";
+					echo "<td> <img src='/images/upload/". basename($this->userInfo->image)."'/></td>"; 
+					echo "<td> </td>"  ;    
+					echo "</tr>";
+
+					echo "<tr>";
+					// echo "<td><input type='file' value='Upload PHoto' class='btn btn-primary' name='image' /></td>";
+					echo "<td>".$this->form."</td>"; 
+
+					// echo "<td><input type='submit' value='Edit Photo' class='btn btn-primary' /></td>";
+					echo "</tr>";
+					// echo "</form>";
+					/////////////////
+					echo "<form action='/users/update-elem' method='post'>";
+					echo "<tr>";
+					
+					echo "<td><h2>  <input type='text' value='".$this->userInfo->name."' name='name' class='form-control'/></h2></td>";
+					//echo "</tr>";
+
+					//echo "<tr>";
+					
+					echo "<td><input type='submit' value='Edit Name' class='btn btn-primary'/></td>";
+					
+					
+					echo "</tr>";
+					echo "</form>";
+///////////////////////////////////
+					echo "<form action='/users/update-elem' method='post'>";
+					echo "<tr>";
+					echo "<td><h2>  <input type='text' value='".$this->userInfo->email."' name='email' class='form-control'/></h2></td>";
+					// echo "</tr>";
+
+					// echo "<tr>";
+					echo "<td><input type='submit' value='Edit Email' class='btn btn-primary'/></td>";
+					echo "</tr>";
+					echo "</form>";
+/////////////////////////////////////////
+					echo "<form action='/users/update-elem' method='post'>";
+					echo "<tr>";
+					echo "<td><h2>  <input type='password' value='".$this->userInfo->password."' name='password' class='form-control'/></h2></td>";
+					// echo "</tr>";
+
+					// echo "<tr>";
+					echo "<td><input type='submit' value='Edit Password' class='btn btn-primary'/></td>";
+					echo "</tr>";
+					echo "</form>";
+					
+					echo "</table>";
+				}
+
+				// echo $this->form;
+			?>
+
+
+		</div>
+		<div class="col-md-3">
+
+		</div>
+</div>

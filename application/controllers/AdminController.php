@@ -30,33 +30,47 @@ class AdminController extends Zend_Controller_Action
        if($this->getRequest()->isPost()){
           $this->category_model->addCat($data);
         }
+        //======Edit Cat===== 1-list
+        $id = $this->getRequest()->getParam('id');
+        $cat = $this->category_model->getCatById($id);
+        $this->view->form = $cat;
+        //======Edit Cat===== 2-update
+        if($this->getRequest()->isPut()){
+          $data = $this->getRequest()->getparams();
+          $this->category_model->updateCat($data, $id);
+        }       	
 
 	}
 
 	public function deleteAction(){
 		$id = $this->getRequest()->getparam('id');
 		$this->category_model->deleteCat($id);
-
+		$this->redirect('admin/categories');
 	}
 
-	function getCatById($id){
-		return $this->find($id)->toArray();
+	public function addAction(){
+		$this->_helper->layout->disableLayout();
+        $this->_helper->viewRenderer->setNoRender(true);
+        
+		$data = $this->getRequest()->getparams();
+       //check if there are data or not 
+       if($this->getRequest()->isPost()){
+          $this->category_model->addCat($data);
+		}
 	}
 
+	// public function editAction(){
+	// 	//List data in modal to edit  
+ //        $id = $this->getRequest()->getParam('id');
+ //        $cat = $this->category_model->getCatById($id);
+ //        $this->view->form = $cat;
 
-	public function editAction()
-    {  
-        $id = $this->getRequest()->getParam('id');
-        $cat = $this->category_model->getCatById($id);
-
-        if($this->getRequest()->isPost()){
-            $data = $this->getRequest()->getparams();
-            if($form->isValid($data)){
-                //$data->id=$id;
-                if ($this->category_model->updateCat($data, $id));
-            } 
-        }
-
-    }
+ //    	//Get data from form with post method     
+ //        if($this->getRequest()->isPost()){
+ //            $data = $this->getRequest()->getparams();
+ //                //$data->id=$id;
+ //               $this->category_model->updateCat($data, $id);
+ //        }
+ //    }
 
 }
