@@ -30,7 +30,7 @@
 					<td name="type"> <?php echo $this->Data[$i]['type']; ?> </td>
 
 					<td name="instructor"> <?php echo $this->Data[$i]['instructor']; ?> </td>
-					<td name="image"> <img src="<?php echo $this->Data[$i]['image']; ?>" /> </td>
+					<td name="image"> <img width="20px" src="<?php echo $this->baseUrl()."/upload/".$this->Data[$i]['image']; ?>" /> </td>
 
 					<td>
 						<?php echo '<a type="button" class="btn btn-info btn-md" href="'.$this->baseUrl().'/admin/deletecour/id/'.$this->Data[$i]['id'].'"> Delete</a>'?>						

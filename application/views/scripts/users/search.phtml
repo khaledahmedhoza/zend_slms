@@ -68,7 +68,7 @@
         ?>     
         <div class="col-md-4">
           <div class="thumbnail">
-            <img alt="" src="<?php echo $this->baseUrl().'/images/1.jpg' ?>" alt="..." width="500px" heigth="300px" />
+            <img alt="" src="<?php echo $this->baseUrl()."/upload/".$this->search[$i]['image']; ?>" alt="..." width="500px" heigth="300px" />
             <div class="caption">
               <h3>
                 <?php echo $this->search[$i]['course_name']; ?>
@@ -88,9 +88,11 @@
     <?php if($this->data) { 
       for($i=0; $i<count($this->data); $i++){
         ?>     
+
+
         <div class="col-md-4">
           <div class="thumbnail">
-            <img alt="" src="<?php echo $this->baseUrl().'/images/1.jpg' ?>" alt="..." width="500px" heigth="300px" />
+            <img src="<?php echo $this->baseUrl()."/upload/".$this->data[$i]['image'];?>"  alt="..." width="500px" heigth="300px" />
             <div class="caption">
               <h3>
                 <?php echo $this->data[$i]['course_name']; ?>
@@ -104,15 +106,14 @@
             </div>
           </div>
         </div>
-        <?php } } if(empty($this->data && $this->search)){?>
-        <h1> 
+        <?php } } ?>
+        <!-- <h1> 
             No Matching Courses
         </h1>
         <p>    
             Courses matching these results can only be found in an alternate dimension.
             Please modify your search.
-        </p>    
-        <?php }?>
+        </p>     -->
 
       <!-- </div> -->
      </div>  
