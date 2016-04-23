@@ -13,11 +13,10 @@ class Application_Form_User extends Zend_Form
         $id= new Zend_Form_Element_Hidden('id');
 
         $name= new Zend_Form_Element_Text('name');
-        $name->addValidator(new Zend_Validate_Alpha());
+        $name->addValidator(new Zend_Validate_Alpha(array('allowwhitespace' => true)));
         $name->addValidator('StringLength', false, array(6, 20));
         $name->setRequired(true);
-        $name->addValidator('regex', false, array('/^[a-z]/'));
-
+        $name->addValidator('regex', false, array('/^[a-zA-Z ]/'));
 
 
 
@@ -28,9 +27,9 @@ class Application_Form_User extends Zend_Form
             $this->getBootstrapDecorator()
         );
 
-		$Username= new Zend_Form_Element_Text('Username');
+		$Username= new Zend_Form_Element_Text('username');
         $Username->setRequired(true);
-        $Username->addValidator(new Zend_Validate_Alpha());
+       
         // $name->setLabel("Name :-");
         $Username->setAttrib("placeholder","enter your Username");
         $Username->setAttrib('class', 'form-control');
@@ -80,7 +79,6 @@ class Application_Form_User extends Zend_Form
 
  		$age= new Zend_Form_Element_Text('age');
         $age->setRequired();
-        $age->addValidator(new Zend_Validate_Alpha());
         // $age->addValidator('Digit');
 
         // $age->setLabel("Age :-");

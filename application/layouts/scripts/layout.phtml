@@ -52,7 +52,22 @@
 							}
 
 						?>
-						
+						<?php
+							$userInfo = Zend_Auth::getInstance()->getStorage()->read();
+							if(isset($userInfo->is_admin) && $userInfo->is_admin ==1){
+								$isAdmin=$userInfo->is_admin;
+
+							}else{
+								$isAdmin =0;
+							}
+
+							if(Zend_Auth::getInstance()->hasIdentity() && $isAdmin == 1){
+								echo "<li>";
+								echo "<a href='/users/list'>Users</a>";
+								echo "</li>";
+
+								}
+						?>						
 					</ul>
 					<form class="navbar-form navbar-left" role="search" method="post"action="<?php echo $this->baseUrl(); ?>/users/search">
 						<div class="form-group">

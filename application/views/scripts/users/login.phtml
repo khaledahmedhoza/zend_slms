@@ -6,12 +6,23 @@ echo $this->headTitle("Login");
 <?php
 
 if($this->notValid){
-	echo "<h3> Login Faild</h3>";
+	echo "<h3> Login Failed</h3>";
+}
+if($this->inActive){
+	echo "<h3> InActive Acount .. Please ReActivate It .. OR Contact With Admin for Support.. </h3>";
 }
 // if(isset($this->username)){
 // 	echo $this->username;
 	
 // 	die();
 // }
+echo "<div class='row'>";
+echo "<div class='col-sm-2'>";
+echo "</div>";
+echo "<div class='col-sm-8'>";
 echo $this->form;
+echo "</div>";
+echo "<div class='col-sm-2'>";
+echo "</div>";
+echo "</div>";
 ?>
