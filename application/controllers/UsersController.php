@@ -24,6 +24,65 @@ class UsersController extends Zend_Controller_Action
     {
         // action body
     }
+    public function testAction()
+    { 
+        //1) get selected data
+        // $data=$this->getRequest()->getParams();
+        // $skill = $data['skill_level'];
+        // $language = $data['language'];
+        // //2) send to courses 
+        // if ($totalData=$this->course_model->getData($data)){
+        //     $this->view->data = $totalData;
+        //     $this->redirect('users/search');
+        // }            
+    }   
+    public function searchAction()
+    { 
+                    //1)==========list categories=====>>>
+                    $catData=$this->category_model->listCat();
+                    $this->view->catData = $catData;
+
+                    //2)=========List courses=========>>>
+                    $courseData=$this->course_model->listCourses();
+                    $this->view->courseData = $courseData;
+
+                    //3)======PostMethod=====Simple search======//
+                   $Cname = $this->getRequest()->getparam('search');
+                   if($this->getRequest()->isPost()){
+                        if ($result=$this->course_model->getCourses($Cname)){
+                                $this->view->search = $result;
+                        }
+                    }
+                    //4)=====GetMethod====droplist=====//
+                    $data=$this->getRequest()->getParams();
+                    if($this->getRequest()->isGet()){
+                        if ($totalData=$this->course_model->getData($data)){
+                                $this->view->data = $totalData;
+                            } 
+                    }                   
+
+                    //=======Search adv=======//
+        // if($this->getRequest()->isGet())
+        // {
+        //     $category = $this->getRequest()->getparam('category');
+        //     $data=$this->getRequest()->getParams();
+        //     ///send cat name and get cat id 
+        //     if($this->category_model->getCatId($category)) { 
+        //         for($i=0; $i<count($this->category_model->getCatId($category)); $i++){
+        //             $cat=$this->category_model->getCatId($category)[$i]['id'];
+        //             //print_r($cat);
+        //         }      
+  
+        //     }
+
+        //     if ($totalData=$this->course_model->getData($data,$cat)){
+        //             $this->view->data = $totalData;
+
+        //     }
+        // }
+
+
+    }
 
 
 
@@ -443,4 +502,5 @@ class UsersController extends Zend_Controller_Action
 
         $this->redirect('/users/list');
     }
+}
 }

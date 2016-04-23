@@ -1,13 +1,14 @@
 // Empty JS for your own code to be here
-// $("#search").click(function(event){
-// 	var data = $("#query").val();
-// 	console.log(data);
+// $(document).ready(function () {
+//   $("#addAj").click(function(event){
+//   var data = $("#addname").val();
+//   console.log(data);
 
-// 	$.ajax({
-//     url:"/test",
-//     type: 'GET',
+//   $.ajax({
+//     url:"/add",
+//     type: 'POST',
 //     data:data,
-//     dataType: 'json',
+//     dataType:'json',
 //     success:function(res){
 //        console.log("success");
 //        //console.log(res.data);
@@ -16,6 +17,8 @@
 //     });
 //  event.preventDefault();
 // });
+// });
+
 //=======================
 function showUser(str) {
   if (str=="") {

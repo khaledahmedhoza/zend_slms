@@ -23,11 +23,12 @@ class IndexController extends Zend_Controller_Action
     public function indexAction()
     {
         // action body
+        $this->view->index = $this->course_model->listCourses();
     }
 
     public function homeAction()
     {
-       	$this->view->index = $this->course_model->listCourses();
+     
 
        //	'data' => $this->listCourses()->fetchAll(),
 

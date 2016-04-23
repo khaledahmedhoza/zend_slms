@@ -1,0 +1,123 @@
+<?php echo $this->headTitle("Search") ?>
+<?php echo $this->layout()->content; ?>
+<div class="row">
+	<div class="col-md-3">
+		<div class="container-fluid">
+
+		
+        <form action="<?php echo $this->baseUrl(); ?>/users/search" method="get" class="form-inline">
+            <!-- <div class="form-group">
+                      <p>Category: </p>
+                      <select name="category_name" class="form-control">
+                        <?//php //if($this->search) 
+                        {//for($i=0; $i<count($this->catData); $i++){?>
+                        <option name="category_name"> <?php //echo $this->catData[$i]['category_name']; ?> </option>
+                      </select>
+
+              </div>  -->
+              </br> </br> 
+                <div class="form-group">
+                    <div id="Skill">
+                    <p>Skill Level:</p>
+                    <select name="skill_level" class="form-control">
+                      <?php if($this->courseData) 
+                      {for($i=0; $i<count($this->courseData); $i++){?>
+
+                      <option name="skill_level" > <?php echo $this->courseData[$i]['skill_level']; ?> </option>
+                      <?php } } ?>
+
+                    </select>
+                    </div>
+                </div>
+               </br> </br>    
+                <div class="form-group">
+                  <div id="language">
+                      <p> Language: </p>
+                      <select name="language" class="form-control">
+                        <?php if($this->courseData) 
+                        {for($i=0; $i<count($this->courseData); $i++){?>
+                        <option name="language"> <?php echo $this->courseData[$i]['language']; ?> </option>
+                          <?php } } ?>
+                      </select>
+                  </div>
+                </div>
+                </br> </br> 
+                <div class="form-group">
+                  <div id="type">
+                      <p> Type: </p>
+                      <select name="type" class="form-control">
+                        <?php if($this->courseData) 
+                        {for($i=0; $i<count($this->courseData); $i++){?>
+                        <option name="type"> <?php echo $this->courseData[$i]['type']; ?> </option>
+                          <?php } } ?>
+                      </select>
+                  </div>
+                </div>
+                </br> </br> 
+              <div class="form-group">
+          <input type="submit" class="btn btn-info form-control" value="Search">
+        </div>
+     </form>
+	  	</div>
+	</div> 	
+<!-- Show Data -->
+<div class="container-fluid">
+  <div class="col-md-9">
+    <?php if($this->search) { 
+      for($i=0; $i<count($this->search); $i++){
+        ?>     
+        <div class="col-md-4">
+          <div class="thumbnail">
+            <img alt="" src="<?php echo $this->baseUrl()."/upload/".$this->search[$i]['image']; ?>" alt="..." width="500px" heigth="300px" />
+            <div class="caption">
+              <h3>
+                <?php echo $this->search[$i]['course_name']; ?>
+              </h3>
+              <p>
+                <?php echo $this->search[$i]['course_desc']; ?>
+              </p>
+              <p>
+                <a class="btn btn-primary" href="<?php echo $this->baseUrl().'/course/'.$this->data[$i]['id']; ?>">Details</a>
+              </p>
+            </div>
+          </div>
+        </div>
+        <?php } } ?>
+      <!-- </div> -->
+							<!-- Total Data -->
+    <?php if($this->data) { 
+      for($i=0; $i<count($this->data); $i++){
+        ?>     
+
+
+        <div class="col-md-4">
+          <div class="thumbnail">
+            <img src="<?php echo $this->baseUrl()."/upload/".$this->data[$i]['image'];?>"  alt="..." width="500px" heigth="300px" />
+            <div class="caption">
+              <h3>
+                <?php echo $this->data[$i]['course_name']; ?>
+              </h3>
+              <p>
+                <?php echo $this->data[$i]['course_desc']; ?>
+              </p>
+              <p>
+                <a class="btn btn-primary" href="<?php echo $this->baseUrl().'/course/'.$this->data[$i]['id']; ?>" > Details</a> 
+              </p>
+            </div>
+          </div>
+        </div>
+        <?php } } ?>
+        <!-- <h1> 
+            No Matching Courses
+        </h1>
+        <p>    
+            Courses matching these results can only be found in an alternate dimension.
+            Please modify your search.
+        </p>     -->
+
+      <!-- </div> -->
+     </div>  
+    </div>          
+
+</div>
+
