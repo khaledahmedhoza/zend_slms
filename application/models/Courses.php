@@ -17,15 +17,16 @@ class Application_Model_Courses extends Zend_Db_Table_Abstract
 		return $this->fetchAll($select);
 	}
 
-	function getData($data,$cat){
+	function getData($data){
 
-		$skill = $data['skill'];
-		$language = $data['language'];
-		$category = $data['category'];
-
+		$language=$data['language'];
+		$skill=$data['skill_level'];
+		$type=$data['type'];
+		// print_r($data['category_name']);
 		$select = $this->select()->where('skill_level LIKE ?',$skill.'%')
 		->where('language LIKE ?',$language.'%')
-		->where('category_id = ?',$cat);
+		->where('type LIKE ?',$type.'%');
+		//->where('category_id = ?',$cat);
 		
 		return $this->fetchAll($select);
 	}

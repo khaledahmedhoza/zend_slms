@@ -51,17 +51,25 @@ class AdminController extends Zend_Controller_Action
 	public function addcategoryAction(){
 		// $this->_helper->layout->disableLayout();
   //       $this->_helper->viewRenderer->setNoRender(true);
+    $form = new Application_Form_Category();
+    $this->view->form=$form;
 
 		$data = $this->getRequest()->getparams();
        //check if there are data or not 
        if($this->getRequest()->isPost()){
           $this->category_model->addCat($data);
-          $this->redirect('admin/categories');
+          //$this->redirect('admin/categories');
 		  }
+        $this->view->flag = 1;
+        $this->view->form = $form;
+        $this->render('addcategory'); 
 	}
 
 	public function editcategoryAction(){
 		//List data in modal to edit  
+    $form = new Application_Form_Category();
+    $this->view->form=$form;
+
         $id = $this->getRequest()->getParam('id');
         $cat = $this->category_model->getCatById($id);
         $this->view->form = $cat;
@@ -72,7 +80,12 @@ class AdminController extends Zend_Controller_Action
             $this->category_model->updateCat($data, $id);
             $this->redirect('admin/categories');
         }
+
+        $form->populate($cat[0]);
+        $this->view->form = $form;
+        $this->render('addcategory');
     }
+
 
     //==========courses==========
     public function coursesAction(){
@@ -88,11 +101,28 @@ class AdminController extends Zend_Controller_Action
         $data = $this->getRequest()->getparams();
        //check if there are data or not 
        if($this->getRequest()->isPost()){
+              $fullFilePath = $form->image->getFileName();  
+              $data['image']=$fullFilePath;
+
             if($form->isValid($data)){
                 if ($this->course_model->addCourse($data))
                 $this->redirect('admin/courses');  
             }   
         }
+        //============image=================
+        // $image = $this->getRequest()->getparam('image');
+        //     if ($image->getElement('image')->isUploaded()) {
+        //         $extension = pathinfo($image->getElement('image')->getValue(), PATHINFO_EXTENSION); 
+      
+        //         $image->getElement('image')->addFilter('Rename', array('target' => $user->getUsername() . '.' . $extension,'overwrite' => true));
+      
+        //       if ($image->getElement('image')->receive()) {
+        //           $profile = $course->getProfile();
+        //           $profile->setPicture($photo->getElement('image')->getValue());
+        //           $profile->save();
+        //       }
+        //     }
+
         $this->view->flag = 1;
         $this->view->form = $form;
         $this->render('addcourse');    
@@ -114,6 +144,9 @@ class AdminController extends Zend_Controller_Action
       //Get data from form with post method     
         if($this->getRequest()->isPost()){
             $data = $this->getRequest()->getparams();
+            $fullFilePath = $form->image->getFileName();  
+            $data['image']=$fullFilePath;
+
             if($form->isValid($data)){
                 $this->course_model->updateCourse($data, $id);
                 $this->redirect('admin/courses');

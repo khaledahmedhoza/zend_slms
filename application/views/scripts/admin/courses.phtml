@@ -13,6 +13,7 @@
 					<th>Language</th>
 					<th>Skill Level</th>
 					<th>Course Duration</th>
+					<th>Course Type</th>
 					<th>Instructor</th>
 					<th>Image</th>
 					<th>Delete</th>
@@ -26,8 +27,11 @@
 					<td name="language"> <?php echo $this->Data[$i]['language']; ?> </td>
 					<td name="skill_level"> <?php echo $this->Data[$i]['skill_level']; ?> </td>
 					<td name="duration"> <?php echo $this->Data[$i]['duration']; ?> </td>
+					<td name="type"> <?php echo $this->Data[$i]['type']; ?> </td>
+
 					<td name="instructor"> <?php echo $this->Data[$i]['instructor']; ?> </td>
-					<td name="image"> <?php echo $this->Data[$i]['image']; ?> </td>
+					<td name="image"> <img src="<?php echo $this->Data[$i]['image']; ?>" /> </td>
+
 					<td>
 						<?php echo '<a type="button" class="btn btn-info btn-md" href="'.$this->baseUrl().'/admin/deletecour/id/'.$this->Data[$i]['id'].'"> Delete</a>'?>						
 					</td>
@@ -36,7 +40,14 @@
 					</td>	
 						
 <!-- '<button type="button" class="btn btn-info btn-md" data-toggle="modal" data-target="test">
- -->				
+ -->			
+
 				</tr>
 				<?php } } ?>
+
 			</table>
+			<tr>
+ 					<a type="button" class="btn btn-info btn-md" href="<?php echo $this->baseUrl(); ?>/admin/addcourse">Add Course
+					</a>
+				</tr>	
+				<br> <br>

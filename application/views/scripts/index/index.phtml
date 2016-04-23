@@ -2,6 +2,12 @@
 
 <div class="container-fluid">
   <div class="row">
+    <div class="jumbotron">
+    <h1>Et3lem.com</h1>
+    <p>Take the world's best courses, online.</p> 
+    </div>
+     <center> <h2>Popular Courses</h2> </center>
+     <br> <br>
     <?php if($this->index) { 
       for($i=0; $i<count($this->index); $i++){
         ?>        
@@ -16,7 +22,7 @@
                 <?php echo $this->index[$i]['course_desc'] ?>
               </p>
               <p>
-                <a class="btn btn-primary" href="#">Action</a> <a class="btn" href="#">Action</a>
+                <a class="btn btn-primary" href="<?php echo $this->baseUrl().'/course/'.$this->index[$i]['id']; ?>">Action</a>
               </p>
             </div>
           </div>

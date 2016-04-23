@@ -7,7 +7,7 @@ class Application_Model_Categories extends Zend_Db_Table_Abstract
 
 
 	function getCatId ($data){
-		$category=$data['category'];
+		$category=$data['category_name'];
 		$select = $this->select('id')->where('category_name LIKE ? ',$category.'%');
 
 		return $this->fetchAll($select);
