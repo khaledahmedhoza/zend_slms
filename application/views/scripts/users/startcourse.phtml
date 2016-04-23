@@ -2,19 +2,24 @@
 <br /><br />
 <div id="view-content">
 	<?php
+
 		//get data from controller
 		$data_list = $this->listdata;
 		$document = $this->document;
-		echo $this->us;
+		$reviews = $this->reviews;
+		$userid = $this->userid;
+		
+
+
 		//get list of course's documents
 		for($i=0;$i<count($data_list);$i++){
-		$doc = $data_list[$i]['material'];
+		$doc = split('/',$data_list[$i]['material'], 5);
 
 		//get type of file
 		$doc_type = split('\.',$doc[4],2);
 
 		//each link map to new document
-		?><a href="<?php echo $this->baseUrl() ?>/users/startcourse/?course_id='<?php echo $data_list[$i]['course_id']?>'&doc_no='<?php  echo $data_list[$i]['doc_no']?>'"><p><?php echo $doc ?></p></a><?php
+		?><a href="<?php echo $this->baseUrl() ?>/users/startcourse/?course_id='<?php echo $data_list[$i]['course_id']?>'&doc_no='<?php  echo $data_list[$i]['doc_no']?>'"><p><?php echo $doc[4] ?></p></a><?php
 		}
 
 	//get my public ip
@@ -38,41 +43,111 @@
 		}
 	}else{
 		//can't download
-		if($locked!=0){?>
+		if($locked!=0){ ?>
 		 	<iframe src="<?php echo $document[0]['material'] ?>" width="600" height="380" style="border: none;"></iframe>
+			<p><?php echo $document[0]['material'] ?></p>
 		<?php } else { ?>
 			<a href="<?php echo $document[0]['material']?>" download><button>download</button></a>
-			<iframe src="/slms/materials/mongo/<?php echo $document[0]['material'] ?>" width="600" height="380" style="border: none;"></iframe>
+			<iframe src="<?php echo $document[0]['material'] ?>" width="600" height="380" style="border: none;"></iframe>
 		<?php }
 	}
 		?>
 		<!-- add comment to material -->
 		<input type="text" id="user_comment">
 		<input type="hidden" id="course_id" value="<?php echo $document[0]['course_id'] ?>" />
-		<button name="comment_btn" onclick="add_comment()">comment</button>
+		<button name="comment_btn" onclick="add_comment(<?php echo $document[0]['doc_no'] ?>)">comment</button>
 
-		<div id="comment_area"></div>
+		<div id="comment_area">
+		<?php
+		
+		for($i=0;$i<count($reviews);$i++){
+			echo "<div id='comid".$reviews[$i]['id']."'><p id='".$reviews[$i]['id']."' >".$reviews[$i]['comment']." /// ".$reviews[$i]['username']."<p>";
+			if($reviews[$i]['user_id'] == $userid){ 
+				echo "<button onclick='edit_comment(".$reviews[$i]['id'].")'>edit</button>";
+				echo "<div id='editarea".$reviews[$i]['id']."' ></div>";
+				echo "<button onclick='del(".$reviews[$i]['id'].")'>delete</button>";
+			}
+			echo "</div>";
+		}
+		?>	
+		</div>
 
-	
-</div>
+	</div>
+
 <script>
-var add_comment = function(){
+
+var add_comment = function(doc_no){
 	var comment_text = $("#user_comment").val();
 	var course_id = $("#course_id").val();
-console.log(comment_text);
-console.log(course_id);
+
 	if(comment_text!=""){
-		$(function(){
-		$.ajax({
-			url:'/slms/public/users/addComment/',
-			method:'get',
-			data : {'com':comment_text,'course_id':course_id},
-			success : function(res){
-				console.log('aaa');
-				$("#comment_area").append("<p>"+comment_text+"</p>");
+		
+		var url = "/slms/public/users/addComment/?com="+comment_text+"&course_id="+course_id+"&doc_no="+doc_no+"";
+		var xhr = new XMLHttpRequest();
+		xhr.onreadystatechange = function(){
+			if(xhr.readyState =='4' && xhr.status=='200'){
+			$("#course_id").val("");
 			}
-		});
-	});
+		}
+		function senddata(){
+			xhr.open('get',url,true);
+			xhr.send();	
+		}
+	senddata();
 	}
+};
+
+//delete comment of user
+var del = function(com_id){
+	var url = "/slms/public/users/delcomment/?com_id="+com_id+"";
+		var xhr = new XMLHttpRequest();
+		xhr.onreadystatechange = function(){
+			if(xhr.readyState =='4' && xhr.status=='200'){
+			$("#comid"+com_id+"").hide();
+			}
+		}
+		function del_com(){
+			xhr.open('get',url,true);
+			xhr.send();	
+		}
+	del_com(); 
+} ;
+
+//function update
+var edit_area = 0;
+var edit_comment = function(comment_id){
+if(edit_area == 0){
+	$("#editarea"+comment_id+"").append("<input type='text' id='edit_comment'>");
+	$("#editarea"+comment_id+"").append("<button onclick='update_comment("+comment_id+")' >update</button>");
+	edit_area = 1;
+}else{
+	$("#editarea"+comment_id+"").empty();
+	edit_area = 0;
 }
+
+
+					
+};
+
+var update_comment = function(com_id){
+	var updated_com = $("#edit_comment").val();
+	$("#editarea"+com_id+"").empty();
+	edit_area = 0;
+	var url = "/slms/public/users/updatecomment/?com_id="+com_id+"&com="+updated_com+"";
+			var xhr = new XMLHttpRequest();
+			xhr.onreadystatechange = function(){
+				if(xhr.readyState =='4' && xhr.status=='200'){
+				$("#"+com_id+"").text(""+updated_com+"");
+				$("#editarea").hide();
+				}
+			}
+			function up_com(){
+				xhr.open('get',url,true);
+				xhr.send();	
+			}
+		up_com(); 
+
+};
 </script>
+
+

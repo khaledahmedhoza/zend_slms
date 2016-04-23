@@ -2,7 +2,15 @@
 <div id="view-content">
 	<?php
 		$info = $this->data[0];
-		$comments = $this->reviews[0];				
+		$comments = $this->reviews[0];	
+		$related_courses = $this->related;
+
+		//recommend other courses to user
+		echo "you may also want to see <br>";
+		foreach ($related_courses as $key => $value) {
+		echo "<a href='".$this->baseUrl()."/users/course/?course_id=".$key."'><p>".$value."</p></a>";
+			echo "<br>";
+		}			
 	?>
 	
 <p>total enrolled : <?php echo $info['student_no']?> </p>
