@@ -15,34 +15,28 @@ class UsersController extends Zend_Controller_Action
 
     private $category_model = null;
 
+    private $assoc_rules_model = null;
+
+    private $request_model = null;
+
 
     public function init()
     {
         /* Initialize action controller here */
 		$this->user_model = new Application_Model_Users;
-		//$this->request_model = new Application_Model_Requests;
+		$this->request_model = new Application_Model_Requests;
 		$this->material_model = new Application_Model_Materials;
 		$this->course_model = new Application_Model_Courses;
 		$this->comment_model = new Application_Model_Comments;
 		$this->category_model = new Application_Model_Categories;
+        	$this->assoc_rules_model = new Application_Model_Assocrules;
     }
 
     public function indexAction()
     {
         // action body
     }
-    public function testAction()
-    { 
-        //1) get selected data
-        // $data=$this->getRequest()->getParams();
-        // $skill = $data['skill_level'];
-        // $language = $data['language'];
-        // //2) send to courses 
-        // if ($totalData=$this->course_model->getData($data)){
-        //     $this->view->data = $totalData;
-        //     $this->redirect('users/search');
-        // }            
-    }   
+     
     public function searchAction()
     { 
                     //1)==========list categories=====>>>
@@ -102,23 +96,35 @@ class UsersController extends Zend_Controller_Action
 	
     public function addCommentAction()
 	{
-		/*$course_id = $this->_request->getParam('course_id');
+		$doc_id = $this->_request->getParam('course_id');
 		$comment_text = $this->_request->getParam('com');
 		$authorization = Zend_Auth::getInstance();
-		$user_info = $authorization->getIdentity()[0];
-		$course_comments = $this->comment_model->addComment($course_id,$comment_text,$user_info);*/
+		$user_info = $authorization->getIdentity();
+		$doc_no = $this->_request->getParam('doc_no');
+		$course_comments = $this->comment_model->addComment($doc_id,$comment_text,$user_info,$doc_no);
 	}
 
     public function startcourseAction()
     {
 
-        $course_id = $this->_request->getParam('course_id');
-	$doc_no = $this->_request->getparam('doc_no');
+       $course_id = $this->_request->getParam('course_id');
+	$doc_no = $this->_request->getParam('doc_no');
+   
 	$doc_list = $this->material_model->listDocuments($course_id);
 	$doc = $this->material_model->getDocument($course_id,$doc_no);
-	//$comments = $this->comment_model->
+	$doc_comments = $this->comment_model->getDocumentReviews($course_id,$doc_no);
+
+	$authorization = Zend_Auth::getInstance();
+	$user_id = $authorization->getIdentity()->id;
+
+    $related_courses = $this->assoc_rules_model->getRelatedCourses($course_id);
+    $related_courses_names = $this->course_model->getCoursesNames($related_courses);
+
+	$this->view->assign('reviews',$doc_comments);
 	$this->view->assign('listdata',$doc_list);
 	$this->view->assign('document',$doc);
+	$this->view->assign('userid',$user_id);
+    $this->view->assign('related',$related_courses_names);
     }
 
 
@@ -291,7 +297,34 @@ class UsersController extends Zend_Controller_Action
          
     }
 
+	public function delcommentAction()
+    {
+        // action body
+	// action body
+		$comment_id = $this->_request->getParam('com_id');
+		$del_com= $this->comment_model->delComment($comment_id);
+    }
 
+    public function updatecommentAction()
+    {
+        // action body
+	$comment_id = $this->_request->getParam('com_id');
+	$comment = $this->_request->getParam('com');
+	$com_arr = $this->comment_model->getComment($comment_id);
+	$com_arr[0]['comment'] = $comment;
+	//var_dump($com_arr); die();
+	$this->comment_model->updateComment($comment_id,$com_arr[0]);
+    }
+
+    public function pushRequestAction()
+    {
+        // action body
+        $req = $this->_request->getParam('request');
+        $user_id = $this->_request->getParam('user_id');
+        $username = $this->_request->getParam('username');
+
+        $this->request_model->pushRequest($req,$user_id,$username);
+    }
 
 
     public function updateElemAction(){

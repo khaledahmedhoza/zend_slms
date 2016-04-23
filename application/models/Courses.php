@@ -18,12 +18,7 @@ class Application_Model_Courses extends Zend_Db_Table_Abstract
 		return $this->fetchAll()->toArray();
 	}
 
-}
 
-	function listCourses(){
-
-		return $this->fetchAll()->toArray();
-	}
 
 	function getCourses($Cname){
 
@@ -43,6 +38,20 @@ class Application_Model_Courses extends Zend_Db_Table_Abstract
 		//->where('category_id = ?',$cat);
 		
 		return $this->fetchAll($select);
+	}
+
+	function getFreqCourses(){
+		$dba = Zend_Db_Table_Abstract::getDefaultAdapter();
+		$select = $dba->select()->from("courses")->where("student_no > 1")->order("id");
+		return $result = $dba->query($select)->fetchAll();
+	}
+
+	function getCoursesNames($related_courses){
+		for($i=0;$i<sizeof($related_courses);$i++){
+			$obj = $this->find($related_courses[$i]['x']);
+			$data[$related_courses[$i]['x']] = $obj[0]['course_name'];
+		}
+		return $data;
 	}
 
 	//============views======

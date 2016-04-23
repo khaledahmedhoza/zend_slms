@@ -8,7 +8,7 @@
 <p>total enrolled : <?php echo $info['student_no']?> </p>
 <p>duration : <?php echo $info['duration'] ?> </p>
 <p>course description : <?php echo $info['course_desc'] ?>
-<a href="<?php echo $this->baseUrl() ?>/users//startcourse/?course_id=<?php echo $info['id'] ?>&doc_no=1"><button>start course</button></a> 
+<a href="<?php echo $this->baseUrl() ?>/users/startcourse/?course_id=<?php echo $info['id'] ?>&doc_no=1"><button>start course</button></a> 
 <p>Reviews</p>
 <?php
 

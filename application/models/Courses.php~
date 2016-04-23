@@ -6,7 +6,7 @@ class Application_Model_Courses extends Zend_Db_Table_Abstract
 	protected $_name= 'courses';
 
 
-<<<<<<< HEAD
+
 	function getCourseInfo($course_id){
 		return $this->find($course_id);
 	}
@@ -18,12 +18,7 @@ class Application_Model_Courses extends Zend_Db_Table_Abstract
 		return $this->fetchAll()->toArray();
 	}
 
-}
-=======
-	function listCourses(){
 
-		return $this->fetchAll()->toArray();
-	}
 
 	function getCourses($Cname){
 
@@ -87,4 +82,4 @@ class Application_Model_Courses extends Zend_Db_Table_Abstract
 	}
 
 }
->>>>>>> 3256f91da25445b1bc9f1dca277f96fab4c7f622
+
