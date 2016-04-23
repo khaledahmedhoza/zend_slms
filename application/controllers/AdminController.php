@@ -22,23 +22,7 @@ class AdminController extends Zend_Controller_Action
 	public function categoriesAction(){
 
 		$catData=$this->category_model->listCat();
-        $this->view->Data = $catData;
-
-        //======Add Cat=====
-       //  $data = $this->getRequest()->getparams();
-       // //check if there are data or not 
-       // if($this->getRequest()->isPost()){
-       //    $this->category_model->addCat($data);
-       //  }
-        //======Edit Cat===== 1-list
-        // $id = $this->getRequest()->getParam('id');
-        // $cat = $this->category_model->getCatById($id);
-        // $this->view->form = $cat;
-        // //======Edit Cat===== 2-update
-        // if($this->getRequest()->isPut()){
-        //   $data = $this->getRequest()->getparams();
-        //   $this->category_model->updateCat($data, $id);
-        // }       	
+        $this->view->Data = $catData;   	
 
 	}
 
@@ -105,10 +89,10 @@ class AdminController extends Zend_Controller_Action
 
               if($form->isValid($data)){
 
-                if($form->getElement('image')->receive()){
-                $data['image'] = $form->getElement('image')->getValue();
-                $this->course_model->addCourse($data);
-                }
+                  if($form->getElement('image')->receive()){
+                    $data['image'] = $form->getElement('image')->getValue();
+                    $this->course_model->addCourse($data);
+                    }
               }
    
         }
