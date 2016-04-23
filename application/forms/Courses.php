@@ -61,13 +61,13 @@ class Application_Form_Courses extends Zend_Form
         $image = new Zend_Form_Element_File('image');
         $image->setLabel('Course image');
         $image->setAttrib('class', 'form-control');
-        $image->setDestination('/var/www/html/zendProject/zend_slms/upload');
-        // $image->setDestination('/var/www/html/zendProject/zend_slms/upload');
+        $destination = APPLICATION_PATH.'/../public/upload';
+        $image->setDestination($destination);
         // ensure only one file
-        // $image->addValidator('Count', false, 1);
+        $image->addValidator('Count', false, 1);
         // // max 2MB
-        // $image->addValidator('Size', false, 2097152)
-        //       ->setMaxFileSize(2097152);
+        $image->addValidator('Size', false, 2097152)
+              ->setMaxFileSize(2097152);
         // only JPEG, PNG, or GIF
         $image->addValidator('Extension', false, 'jpg,png,gif');
         $image->setValueDisabled(true);
