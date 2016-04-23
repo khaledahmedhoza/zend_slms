@@ -43,7 +43,7 @@ class AdminController extends Zend_Controller_Action
     	$this->render("admin");
     }
 	public function categoriesAction(){
-
+		
 		$catData=$this->category_model->listCat();
         $this->view->Data = $catData;   	
 

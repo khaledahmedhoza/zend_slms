@@ -1,16 +1,29 @@
-<br /><br />
 
-<br /><br />
 <?php
 
 if($this->error){
 	echo "<h2>".$this->error."</h2>";
 }else if($this->users) { 
 
-echo "<h1> List Of All Users </h1>";
-echo "<table class='table'>";
-	for($i=0; $i<count($this->users); $i++){
+echo "<h1 class='text-center well well-sm'>Users </h1>";
+echo "<div class='row'>";
+echo "<div class='col-sm-2'>";
+echo "</div>";
+echo "<div class='col-sm-8'>";
 
+echo "<table class='table table-bordered '>";
+echo  "<thead>
+      <tr>
+        <th>ID</th>
+        <th>User Name</th>
+        <th>Delete</th>
+        <th>Edit</th>
+        <th>Active/InActive</th>
+      </tr>
+    </thead>
+    <tbody>";
+	for($i=0; $i<count($this->users); $i++){
+		
 		
 		echo "<tr>";
 		echo "<td class='success'>";
@@ -39,5 +52,10 @@ echo "<table class='table'>";
 			
 		
 	}
+echo "</tbody>";
 echo "</table>";
+echo "</div>";
+echo "<div class='col-sm-2'>";
+echo "</div>";
+echo "</div>";
 }
