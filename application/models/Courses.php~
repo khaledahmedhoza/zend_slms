@@ -3,11 +3,12 @@
 class Application_Model_Courses extends Zend_Db_Table_Abstract
 {
 	/** Table name */
-	protected $_name= 'courses' ;
+	protected $_name= 'courses';
 
 
+<<<<<<< HEAD
 	function getCourseInfo($course_id){
-		return $this->find($course_id)->toArray();
+		return $this->find($course_id);
 	}
 
 
@@ -18,3 +19,72 @@ class Application_Model_Courses extends Zend_Db_Table_Abstract
 	}
 
 }
+=======
+	function listCourses(){
+
+		return $this->fetchAll()->toArray();
+	}
+
+	function getCourses($Cname){
+
+		$select = $this->select()->where('course_name LIKE ?',$Cname.'%')->limit(10);
+		return $this->fetchAll($select);
+	}
+
+	function getData($data){
+
+		$language=$data['language'];
+		$skill=$data['skill_level'];
+		$type=$data['type'];
+		// print_r($data['category_name']);
+		$select = $this->select()->where('skill_level LIKE ?',$skill.'%')
+		->where('language LIKE ?',$language.'%')
+		->where('type LIKE ?',$type.'%');
+		//->where('category_id = ?',$cat);
+		
+		return $this->fetchAll($select);
+	}
+
+	//============views======
+	function addCourse ($data){
+		// $row->category_name = $data['cat'];
+		// return $row->save();
+
+		if (isset($data['module']))
+				unset($data['module']);
+			if (isset($data['controller']))
+				unset($data['controller']);
+			if (isset($data['action']))
+				unset($data['action']);
+			if (isset($data['submit']))
+				unset($data['submit']);
+			if(isset($data['MAX_FILE_SIZE'])) 
+				unset($data['MAX_FILE_SIZE']);
+
+			$this->insert($data);
+	}	
+
+	function deleteCourse($id){
+		return $this->delete('id='.$id);
+	}
+
+	function getCourseById($id){
+		return $this->find($id)->toArray();
+	}
+
+	function updateCourse($data , $id){
+		$arr = array(
+			  'course_name' => $data['course_name'],
+			  'course_desc' => $data['course_desc'],
+			  'category_id' => $data['category_id'],
+			  'duration' => $data['duration'],
+			  'language' => $data['language'],
+			  'instructor' => $data['instructor'],
+			  'image' => $data['image']
+		    );
+		$id=$data['id'];
+		$this->update($arr,'id ='.$id);
+	}
+
+}
+>>>>>>> 3256f91da25445b1bc9f1dca277f96fab4c7f622

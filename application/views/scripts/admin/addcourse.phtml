@@ -1,0 +1,13 @@
+<?php echo $this->headTitle("Add Courses") ?>
+<?php echo $this->layout()->content; ?>
+
+<?php if (isset($this->flag)) { ?>
+<h1>Add Courses </h1>
+<?php } else { ?>
+<h1> Edit Course </h1>
+<?php }  ?>
+
+<?php echo $this->form; ?>
+<br>
+<a type="button" class="btn btn-success btn-md" href="<?php echo $this->baseUrl()?>/admin/courses"> List Courses </a>
+

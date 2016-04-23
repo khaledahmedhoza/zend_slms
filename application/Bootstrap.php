@@ -26,7 +26,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 		//create namespace into session
 		$session = new Zend_Session_Namespace( 'Zend_Auth' );
 		$session->setExpirationSeconds( 1800 );
-		// $session->x=5;
+		
 	}
 
 }

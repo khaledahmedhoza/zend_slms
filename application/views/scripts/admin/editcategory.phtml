@@ -1,0 +1,21 @@
+<?php echo $this->headTitle("Edit Category") ?>
+<?php echo $this->layout()->content; ?>
+<h1> Edit Category </h1>
+<br /><br />
+<div class="row">
+	<div class="col-md-12">
+		<div class="container-fluid">
+			
+			<form action="/admin/editcategory" method="post">
+			        <?php if($this->form){for($i=0; $i<count($this->form); $i++){?>
+			        	Category Name:<input type="text" name="category_name" value=<?php echo $this->form[$i]['category_name']; ?> > 
+			        	<input type="hidden" name="id" value=<?php echo $this->form[$i]['id']; ?> > 
+			        <?php } } ?>
+			        <br> <br>	
+			         <input type="submit" value="Edit" class="btn btn-info btn-md">
+			         <br> <br>
+			</form>	
+
+		</div>
+	</div>
+</div>	

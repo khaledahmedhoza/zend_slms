@@ -31,6 +31,65 @@ class UsersController extends Zend_Controller_Action
     {
         // action body
     }
+    public function testAction()
+    { 
+        //1) get selected data
+        // $data=$this->getRequest()->getParams();
+        // $skill = $data['skill_level'];
+        // $language = $data['language'];
+        // //2) send to courses 
+        // if ($totalData=$this->course_model->getData($data)){
+        //     $this->view->data = $totalData;
+        //     $this->redirect('users/search');
+        // }            
+    }   
+    public function searchAction()
+    { 
+                    //1)==========list categories=====>>>
+                    $catData=$this->category_model->listCat();
+                    $this->view->catData = $catData;
+
+                    //2)=========List courses=========>>>
+                    $courseData=$this->course_model->listCourses();
+                    $this->view->courseData = $courseData;
+
+                    //3)======PostMethod=====Simple search======//
+                   $Cname = $this->getRequest()->getparam('search');
+                   if($this->getRequest()->isPost()){
+                        if ($result=$this->course_model->getCourses($Cname)){
+                                $this->view->search = $result;
+                        }
+                    }
+                    //4)=====GetMethod====droplist=====//
+                    $data=$this->getRequest()->getParams();
+                    if($this->getRequest()->isGet()){
+                        if ($totalData=$this->course_model->getData($data)){
+                                $this->view->data = $totalData;
+                            } 
+                    }                   
+
+                    //=======Search adv=======//
+        // if($this->getRequest()->isGet())
+        // {
+        //     $category = $this->getRequest()->getparam('category');
+        //     $data=$this->getRequest()->getParams();
+        //     ///send cat name and get cat id 
+        //     if($this->category_model->getCatId($category)) { 
+        //         for($i=0; $i<count($this->category_model->getCatId($category)); $i++){
+        //             $cat=$this->category_model->getCatId($category)[$i]['id'];
+        //             //print_r($cat);
+        //         }      
+  
+        //     }
+
+        //     if ($totalData=$this->course_model->getData($data,$cat)){
+        //             $this->view->data = $totalData;
+
+        //     }
+        // }
+
+
+    }
 
     public function courseAction()
     {
@@ -43,11 +102,11 @@ class UsersController extends Zend_Controller_Action
 	
     public function addCommentAction()
 	{
-		$course_id = $this->_request->getParam('course_id');
+		/*$course_id = $this->_request->getParam('course_id');
 		$comment_text = $this->_request->getParam('com');
 		$authorization = Zend_Auth::getInstance();
 		$user_info = $authorization->getIdentity()[0];
-		$course_comments = $this->comment_model->addComment($course_id,$comment_text,$user_info);
+		$course_comments = $this->comment_model->addComment($course_id,$comment_text,$user_info);*/
 	}
 
     public function startcourseAction()
@@ -63,7 +122,7 @@ class UsersController extends Zend_Controller_Action
     }
 
 
-    public function registerAction(){
+    public function registerAction(){   
 
     	$form=new Application_Form_User();
 
@@ -82,6 +141,7 @@ class UsersController extends Zend_Controller_Action
                 
                 $data['image']=$fullFilePath;
 
+              
                 if($this->user_model->register($data)){
                     $this->redirect('/');
                 // }
@@ -99,19 +159,28 @@ class UsersController extends Zend_Controller_Action
 
 
     public function loginAction(){
+
+        $form=new Application_Form_User();
+        //////////////login after update element/////////////
+        $username = $this->_getParam('username');
+       
+        if(isset($username)){
+            $form->Username->setValue($username);
+            $this->render('login');
+        }
+        ///////////////////////////////////////////////////////
+
         $userName=$this->getRequest()->getParam('Username');
         $password=$this->getRequest()->getParam('password');
 
-        $form=new Application_Form_User();
+       
         // $form->getElement('Username')->removeValidator('Db_NoRecordExists');
 
         $db = Zend_Db_Table::getDefaultAdapter();
 
+     ///Validation With Form /////////////////////////////////////////////////
 
-
-///Validation With Form /////////////////////////////////////////////////
-
-//&& $form->isValid($this->getRequest()->getPost())
+      //&& $form->isValid($this->getRequest()->getPost())
         if($this->getRequest()->isPost() ){
         
                  $adapter = new Zend_Auth_Adapter_DbTable(
@@ -128,9 +197,13 @@ class UsersController extends Zend_Controller_Action
                     if ($result->isValid()) {
                         $auth = Zend_Auth::getInstance();
                         $storage = $auth->getStorage();
+<<<<<<< HEAD
 
                         $storage->write($adapter->getResultRowObject(array('name' , 'password' , 'email', 'id','image','is_banned')));
 
+=======
+                        $storage->write($adapter->getResultRowObject(array('name' , 'password' , 'email', 'id','image','username')));
+>>>>>>> 3256f91da25445b1bc9f1dca277f96fab4c7f622
                         
                         $this->view->loginFlag="true";
                         $this->_redirect('/');
@@ -159,11 +232,20 @@ class UsersController extends Zend_Controller_Action
     }
 
     public function logoutAction(){
+        $username = $this->_getParam('username');
+
+        if(isset($username)){
+            
+            // echo $username;
+            // die();
+            Zend_Auth::getInstance()->clearIdentity();
+            $this->redirect('/users/login/username/'.$username);
+        }
+
         Zend_Auth::getInstance()->clearIdentity();
         $this->redirect('/');
+
     }
-
-
 
 
 
@@ -176,8 +258,30 @@ class UsersController extends Zend_Controller_Action
             $userInfo = Zend_Auth::getInstance()->getStorage()->read();
 
                 if($this->getRequest()->isPost() ){
+                    //update image/////////////////////////////////////////////////////
+                    $userInfo = Zend_Auth::getInstance()->getStorage()->read();
+
+                    $userName=$userInfo->username;
+                    $id = $userInfo->id;
+                    $data = $this->getRequest()->getParams();
+                   
+                    $uploadedData = $form->getValues();
+                    $fullFilePath = $form->image->getFileName();
+
+                    $image=$fullFilePath;
+
+                    $this->user_model->updateImage($id,$image);
+                    $this->redirect('users/logout/username/'.$userName);
 
                   }else{
+                    $form->removeElement('age');
+                    $form->removeElement('email');
+                    $form->removeElement('Username');
+                    $form->removeElement('name');
+                    $form->removeElement('password');
+                    // $form->removeElement('Submit');
+
+                    $this->view->form=$form;
                     $this->view->userInfo=$userInfo;
                   }
 
@@ -187,5 +291,50 @@ class UsersController extends Zend_Controller_Action
          
     }
 
+
+
+
+    public function updateElemAction(){
+
+        if(Zend_Auth::getInstance()->hasIdentity()){
+            $userInfo = Zend_Auth::getInstance()->getStorage()->read();
+
+            $userName=$userInfo->username;
+
+            $id = $userInfo->id;
+            $elements = $this->getRequest()->getParams();
+
+            foreach($elements as $key => $val){
+                    $newName = $val;   
+                    $element = $key;
+            }    
+
+            $this->user_model->updateElement($id,$newName,$element);
+
+
+            //////////////Update Storage after update any element.///////////////////////////
+
+            // Zend_Auth::getInstance()->getStorage()->write($element);
+
+
+            // $db = Zend_Db_Table::getDefaultAdapter();
+            
+
+            // $adapter = new Zend_Auth_Adapter_DbTable(
+            //         $db,
+            //         'users',
+            //         'username',
+            //         'password'
+            //         );
+
+            // $adapter->setIdentity(Zend_Auth::getInstance()->getIdentity());
+            
+            // Zend_Auth::getInstance()->getStorage()->write($adapter->getResultRowObject(array('name' , 'password' , 'email', 'id','image')));
+
+            $this->redirect('users/logout/username/'.$userName);
+
+        }
+
+    }
 }
 

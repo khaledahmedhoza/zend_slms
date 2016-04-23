@@ -100,11 +100,11 @@ class Application_Form_User extends Zend_Form
 
 
         $submit= new Zend_Form_Element_Submit('Submit');
-        $submit->setAttrib('class', 'form-control');
+        // $submit->setAttrib('class', 'form-control');
         $submit->setAttrib('class', 'btn btn-primary');
-        $submit->setDecorators(
-            $this->getBootstrapDecorator()
-        );
+        // $submit->setDecorators(
+        //     $this->getBootstrapDecorator()
+        // );
 
          $this->addElements(array($id,$name,$Username, $password,$age,$email, $image, $submit));
     }

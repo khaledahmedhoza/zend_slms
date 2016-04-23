@@ -20,8 +20,10 @@ public function init()
 	$this->category_model = new Application_Model_Categories;
 }
 
-public function courseAction()
+public function courseAction(){
 
+
+}
 
 }
 //$this->view->users = $this->model->listUsers();
