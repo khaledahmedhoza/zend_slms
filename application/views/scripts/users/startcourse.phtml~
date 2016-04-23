@@ -1,20 +1,20 @@
- <script type="text/javascript" src="jquery-1.11.2.js"></script>
+
 <br /><br />
 <div id="view-content">
 	<?php
 		//get data from controller
 		$data_list = $this->listdata;
 		$document = $this->document;
-		
+		echo $this->us;
 		//get list of course's documents
 		for($i=0;$i<count($data_list);$i++){
-		$doc = split('/',$data_list[$i]['material'],5);
+		//$doc = split('/',$data_list[$i]['material'],5);
 
 		//get type of file
 		$doc_type = split('\.',$doc[4],2);
 
 		//each link map to new document
-		?><a href="<?php echo $this->baseUrl() ?>/users/startcourse/?course_id='<?php echo $data_list[$i]['course_id']?>'&doc_no='<?php  echo $data_list[$i]['doc_no']?>'"><p><?php echo $doc[4] ?></p></a><?php
+		?><a href="<?php echo $this->baseUrl() ?>/users/startcourse/?course_id='<?php echo $data_list[$i]['course_id']?>'&doc_no='<?php  echo $data_list[$i]['doc_no']?>'"><p><?php echo $doc ?></p></a><?php
 		}
 
 	//get my public ip
@@ -42,33 +42,37 @@
 		 	<iframe src="<?php echo $document[0]['material'] ?>" width="600" height="380" style="border: none;"></iframe>
 		<?php } else { ?>
 			<a href="<?php echo $document[0]['material']?>" download><button>download</button></a>
-			<iframe src="<?php echo $document[0]['material'] ?>" width="600" height="380" style="border: none;"></iframe>
+			<iframe src="/slms/materials/mongo/<?php echo $document[0]['material'] ?>" width="600" height="380" style="border: none;"></iframe>
 		<?php }
 	}
 		?>
 		<!-- add comment to material -->
 		<input type="text" id="user_comment">
+		<input type="hidden" id="course_id" value="<?php echo $document[0]['course_id'] ?>" />
 		<button name="comment_btn" onclick="add_comment()">comment</button>
 
-		<?php
-		//get comments of materials
-		
-		?>
+		<div id="comment_area"></div>
 
 	
 </div>
 <script>
 var add_comment = function(){
 	var comment_text = $("#user_comment").val();
+	var course_id = $("#course_id").val();
+console.log(comment_text);
+console.log(course_id);
 	if(comment_text!=""){
+		$(function(){
 		$.ajax({
-			url:'localhost/slms/public/users/addcomment',
-			method:'',
-			data : {'com':comment_text},
+			url:'/slms/public/users/addComment/',
+			method:'get',
+			data : {'com':comment_text,'course_id':course_id},
 			success : function(res){
-
+				console.log('aaa');
+				$("#comment_area").append("<p>"+comment_text+"</p>");
 			}
 		});
+	});
 	}
 }
 </script>

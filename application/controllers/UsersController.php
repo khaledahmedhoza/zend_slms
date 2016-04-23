@@ -40,9 +40,19 @@ class UsersController extends Zend_Controller_Action
 	$this->view->assign('data',$course_data);
 	$this->view->assign('reviews',$course_comments);
     }
+	
+    public function addCommentAction()
+	{
+		/*$course_id = $this->_request->getParam('course_id');
+		$comment_text = $this->_request->getParam('com');
+		$authorization = Zend_Auth::getInstance();
+		$user_info = $authorization->getIdentity()[0];
+		$course_comments = $this->comment_model->addComment($course_id,$comment_text,$user_info);*/
+	}
 
     public function startcourseAction()
     {
+
         $course_id = $this->_request->getParam('course_id');
 	$doc_no = $this->_request->getparam('doc_no');
 	$doc_list = $this->material_model->listDocuments($course_id);
