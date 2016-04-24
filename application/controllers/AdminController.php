@@ -1,4 +1,5 @@
 <?php
+
 class AdminController extends Zend_Controller_Action
 {
 
@@ -19,8 +20,30 @@ class AdminController extends Zend_Controller_Action
 		$this->category_model = new Application_Model_Categories;
 	}
 
-	public function categoriesAction(){
+ 	public function indexAction(){
 
+    	$userName=$this->getRequest()->getParam('username');
+    	
+    	if(isset($userName)){
+    		$admin = $this->user_model->isAdmin($userName);
+    	}else{
+    		$admin=0;
+    	}
+    		
+    	
+    	if(Zend_Auth::getInstance()->hasIdentity() && $admin == 1){
+    		$this->redirect('/admin/admin');
+    	}else{
+    		echo "<h3>You Are not admin .. please login As Admin first</h3>";
+    		$this->redirect('/users/login');
+    	}
+    }
+
+    public function adminAction(){
+    	$this->render("admin");
+    }
+	public function categoriesAction(){
+		
 		$catData=$this->category_model->listCat();
         $this->view->Data = $catData;   	
 

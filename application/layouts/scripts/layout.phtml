@@ -52,7 +52,28 @@
 							}
 
 						?>
-						
+						<?php
+							$userInfo = Zend_Auth::getInstance()->getStorage()->read();
+							if(isset($userInfo->is_admin) && $userInfo->is_admin ==1){
+								$isAdmin=$userInfo->is_admin;
+
+							}else{
+								$isAdmin =0;
+							}
+
+							if(Zend_Auth::getInstance()->hasIdentity() && $isAdmin == 1){
+								echo "<li>";
+								echo "<a href='/users/list'>Users</a>";
+								echo "</li>";
+								echo "<li>";
+								echo "<a href='/admin/categories'>Categories</a>";
+								echo "</li>";
+								echo "<li>";
+								echo "<a href='/admin/courses'>Courses</a>";
+								echo "</li>";
+
+								}
+						?>						
 					</ul>
 					<form class="navbar-form navbar-left" role="search" method="post"action="<?php echo $this->baseUrl(); ?>/users/search">
 						<div class="form-group">
@@ -130,17 +151,18 @@
 	</div> -->
 <!-- ////////////// -->
 
-
-	<div class="row">
-		<div class="col-md-12">
-			
-			<div class="panel panel-default">
-				<div class="panel-body">
-					<strong >Open Source </strong>. <small><a>Khaled-Zahra-Sobhy</a></small>
-				</div>
-			</div>	
+	<footer class="text-center">
+		<div class="row">
+			<div class="col-md-12">
+				
+				<div class="panel panel-default">
+					<div class="panel-body">
+						<p>Et3lm.com -- Made By . <small>Kh-Za-So</small> <a href="http://www.et3lm.com" data-toggle="tooltip" title="Visit Et3lm">www.et3lm.com</a></p>
+					</div>
+				</div>	
+			</div>
 		</div>
-	</div>
+	</footer>
 </div>
 
 

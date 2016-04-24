@@ -1,0 +1,61 @@
+
+<?php
+
+if($this->error){
+	echo "<h2>".$this->error."</h2>";
+}else if($this->users) { 
+
+echo "<h1 class='text-center well well-sm'>Users </h1>";
+echo "<div class='row'>";
+echo "<div class='col-sm-2'>";
+echo "</div>";
+echo "<div class='col-sm-8'>";
+
+echo "<table class='table table-bordered '>";
+echo  "<thead>
+      <tr>
+        <th>ID</th>
+        <th>User Name</th>
+        <th>Delete</th>
+        <th>Edit</th>
+        <th>Active/InActive</th>
+      </tr>
+    </thead>
+    <tbody>";
+	for($i=0; $i<count($this->users); $i++){
+		
+		
+		echo "<tr>";
+		echo "<td class='success'>";
+		echo 'Id: '.$this->users[$i]['id'].'<br />';
+		echo "</td>";
+		echo "<td class='active'>";
+		echo 'User Name: '.$this->users[$i]['username'].'<br />';
+		echo "</td>";
+		echo "<td class='danger'>";
+		echo '<a href="'.$this->baseUrl().'/users/delete-user/id/'.$this->users[$i]['id'].'"> Delete </a>';
+		echo "</td>";
+		echo "<td class='warning'>";
+		echo '<a href="'.$this->baseUrl().'/users/update-user?id='.$this->users[$i]['id'].'"> Edit </a><br />';
+		echo "</td>";
+		echo "<td class='danger'>";
+
+		// echo '<a href="'.$this->baseUrl().'/users/'.$this->users[$i]['id'].'"> Ban</a>';
+		// echo $this->users[$i]['is_banned'];
+		if($this->users[$i]['is_banned'] == 1){
+			echo '<a href="'.$this->baseUrl().'/users/set-de-ban/id/'.$this->users[$i]['id'].'"> Active</a>';
+		}else{
+			echo '<a href="'.$this->baseUrl().'/users/set-ban/id/'.$this->users[$i]['id'].'"> De-Active</a>';
+		}
+		echo "</td>";
+		echo "</tr>";
+			
+		
+	}
+echo "</tbody>";
+echo "</table>";
+echo "</div>";
+echo "<div class='col-sm-2'>";
+echo "</div>";
+echo "</div>";
+}
