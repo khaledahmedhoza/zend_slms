@@ -19,6 +19,26 @@ class Application_Model_Courses extends Zend_Db_Table_Abstract
 	}
 
 
+	function getDisSkill (){
+		$select = $this->select()->from('courses', array('skill_level'))
+		->distinct();
+
+		return $this->fetchAll($select);
+	}
+	function getDisLang (){
+		$select = $this->select()->from('courses', array('language'))
+		->distinct();
+
+		return $this->fetchAll($select);
+	}
+	function getDisType (){
+		$select = $this->select()->from('courses', array('type'))
+		->distinct();
+
+		return $this->fetchAll($select);
+	}
+
+
 
 	function getCourses($Cname){
 
@@ -32,9 +52,17 @@ class Application_Model_Courses extends Zend_Db_Table_Abstract
 		$skill=$data['skill_level'];
 		$type=$data['type'];
 		// print_r($data['category_name']);
-		$select = $this->select()->where('skill_level LIKE ?',$skill.'%')
+		$select = $this->select()
+		// ->distinct()
+		// ->from(array('c' => 'courses'))
+		->where('skill_level LIKE ?',$skill.'%')
 		->where('language LIKE ?',$language.'%')
 		->where('type LIKE ?',$type.'%');
+
+		// $select = $db->select()
+  //            ->distinct()
+  //            ->from(array('p' => 'products'), 'product_name');
+
 		//->where('category_id = ?',$cat);
 		
 		return $this->fetchAll($select);

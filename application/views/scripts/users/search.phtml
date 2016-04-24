@@ -20,10 +20,10 @@
                     <div id="Skill">
                     <p>Skill Level:</p>
                     <select name="skill_level" class="form-control">
-                      <?php if($this->courseData) 
-                      {for($i=0; $i<count($this->courseData); $i++){?>
+                      <?php if($this->skillD) 
+                      {for($i=0; $i<count($this->skillD); $i++){?>
 
-                      <option name="skill_level" > <?php echo $this->courseData[$i]['skill_level']; ?> </option>
+                      <option name="skill_level" > <?php echo $this->skillD[$i]['skill_level']; ?> </option>
                       <?php } } ?>
 
                     </select>
@@ -34,9 +34,9 @@
                   <div id="language">
                       <p> Language: </p>
                       <select name="language" class="form-control">
-                        <?php if($this->courseData) 
-                        {for($i=0; $i<count($this->courseData); $i++){?>
-                        <option name="language"> <?php echo $this->courseData[$i]['language']; ?> </option>
+                        <?php if($this->langD) 
+                        {for($i=0; $i<count($this->langD); $i++){?>
+                        <option name="language"> <?php echo $this->langD[$i]['language']; ?> </option>
                           <?php } } ?>
                       </select>
                   </div>
@@ -46,9 +46,9 @@
                   <div id="type">
                       <p> Type: </p>
                       <select name="type" class="form-control">
-                        <?php if($this->courseData) 
-                        {for($i=0; $i<count($this->courseData); $i++){?>
-                        <option name="type"> <?php echo $this->courseData[$i]['type']; ?> </option>
+                        <?php if($this->typeD) 
+                        {for($i=0; $i<count($this->typeD); $i++){?>
+                        <option name="type"> <?php echo $this->typeD[$i]['type']; ?> </option>
                           <?php } } ?>
                       </select>
                   </div>
@@ -68,7 +68,7 @@
         ?>     
         <div class="col-md-4">
           <div class="thumbnail">
-            <img alt="" src="<?php echo $this->baseUrl()."/upload/".$this->search[$i]['image']; ?>" alt="..." width="500px" heigth="300px" />
+            <img width="300px" alt="" src="<?php echo $this->baseUrl()."/upload/".$this->search[$i]['image']; ?>" alt="..." width="500px" heigth="300px" />
             <div class="caption">
               <h3>
                 <?php echo $this->search[$i]['course_name']; ?>
@@ -92,7 +92,7 @@
 
         <div class="col-md-4">
           <div class="thumbnail">
-            <img src="<?php echo $this->baseUrl()."/upload/".$this->data[$i]['image'];?>"  alt="..." width="500px" heigth="300px" />
+            <img width="300px" src="<?php echo $this->baseUrl()."/upload/".$this->data[$i]['image'];?>"  alt="..." width="500px" heigth="300px" />
             <div class="caption">
               <h3>
                 <?php echo $this->data[$i]['course_name']; ?>

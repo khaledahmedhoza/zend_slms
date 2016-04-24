@@ -10,10 +10,10 @@ resources.frontController.params.displayExceptions = 1
 
 resources.db.adapter = "Pdo_Mysql"
 resources.db.params.host = "localhost"
-<<<<<<< HEAD
+
 resources.db.params.username = "root"
 resources.db.params.password = ""
-=======
+
 resources.db.params.username = "zahra"
 resources.db.params.password = "iti"
 >>>>>>> 3256f91da25445b1bc9f1dca277f96fab4c7f622

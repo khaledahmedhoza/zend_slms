@@ -7,8 +7,8 @@ class Application_Form_Material extends Zend_Form
     {
         /* Form Elements & Other Definitions Here ... */
         $this->setAttrib('enctype', 'multipart/form-data');
-        $id = new Zend_Form_Element_Hidden("id");
-         $this->setMethod('post');
+        //$id = new Zend_Form_Element_Hidden("id");
+        // $this->setMethod('post');
         //$this->setAttrib('class', 'form-horizontal'); // Bootstrap Form
     	
         
@@ -44,7 +44,7 @@ class Application_Form_Material extends Zend_Form
             $this->getBootstrapDecorator()
         );
 
-        $this->addElements(array($id,$doc_path,$doc_no, $submit));
+        $this->addElements(array($doc_path,$doc_no, $submit));
     }
 
     private function getBootstrapDecorator()

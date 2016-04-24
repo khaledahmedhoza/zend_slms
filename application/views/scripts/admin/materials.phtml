@@ -56,7 +56,7 @@ var show_comments = function(course_id,doc_no,doc_id){
 
 	if(is_commentshown == 0){
 		$.ajax({
-		url:'/admin/showmaterialcomments/?course_id='+course_id+'&doc_no='+doc_no+'',
+		url:'/admin/showmaterialcomments/?course_id='+courses_id+'&doc_no='+doc_no+'',
 		dataType:'json',
 		success:function(res){
 $("#com"+doc_id+"").append("<button class='btn-primary' onclick='add_comment("+course_id+","+doc_no+","+doc_id+")'>add comment</button>");
