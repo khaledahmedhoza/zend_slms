@@ -595,6 +595,6 @@ class UsersController extends Zend_Controller_Action
 
         $this->redirect('/users/list');
     }
-}
+
 }
 

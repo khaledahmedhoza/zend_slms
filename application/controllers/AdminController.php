@@ -1,23 +1,5 @@
 <?php
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 7f9481020ccd6937056a72c7d6b3914ae3121270
-class AdminController extends Zend_Controller_Action
-{
-public function init(){
-
-}
-
-public function indexAction()
-    {
-        // action body
-    }
-
-}
-
-
 class AdminController extends Zend_Controller_Action
 {
 
