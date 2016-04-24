@@ -11,7 +11,6 @@ class Application_Model_Categories extends Zend_Db_Table_Abstract
 		$select = $this->select('id')->where('category_name LIKE ? ',$category.'%');
 
 		return $this->fetchAll($select);
-
 	}
 
 	function listCat(){

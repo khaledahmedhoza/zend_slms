@@ -42,9 +42,15 @@ class UsersController extends Zend_Controller_Action
                     $catData=$this->category_model->listCat();
                     $this->view->catData = $catData;
 
-                    //2)=========List courses=========>>>
-                    $courseData=$this->course_model->listCourses();
-                    $this->view->courseData = $courseData;
+                    //2)======List courses====(skill_level)=====>>>
+                    $skillData=$this->course_model->getDisSkill();
+                    $this->view->skillD = $skillData;
+                     //3)======List courses====(language)=====>>>
+                    $LangData=$this->course_model->getDisLang();
+                    $this->view->langD = $LangData;
+                    //3)======List courses====(type)=====>>>
+                    $TypeData=$this->course_model->getDisType();
+                    $this->view->typeD = $TypeData;
 
                     //3)======PostMethod=====Simple search======//
                    $Cname = $this->getRequest()->getparam('search');
