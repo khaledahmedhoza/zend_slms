@@ -1,5 +1,10 @@
 <?php
+/*
+ Root User: adminM6dxAjP
+   Root Password: jAAJvfv64u1H
+   Database Name: et3lm
 
+*/
 class AdminController extends Zend_Controller_Action
 {
 
