@@ -220,7 +220,7 @@ class UsersController extends Zend_Controller_Action
                             $storage->write($adapter->getResultRowObject(array('name' , 'password' , 'email', 'id','image','username','is_admin')));
                             
                             $this->view->loginFlag="true";
-                        $this->redirect("/admin/index/username/".$userName);
+                        $this->redirect("/");
                     }
                 /////////inActive User//////////////////////////////////////
                 }else if($status == 0){
