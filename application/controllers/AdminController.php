@@ -194,19 +194,28 @@ class AdminController extends Zend_Controller_Action
         $course_id = $this->_request->getParam('course_id');
 
         if($this->getRequest()->isPost()){
-
-           $data = $this->_request->getParams();
+            $data = $this->_request->getParams();
             $doc_no = $data['doc_no'];
             $uploadedData = $form->getValues();
-            $fullFilePath = $form->doc_path->getFileName();
+            $fullFilePath = $form->docpath->getFileName();
             $path =$fullFilePath;
+
+            if($docid = $this->_request->getParam('doc_id')){
+                //$doc = $this->material_model->getdoc($docid);
+                //$doc[0]['material'] = $path;
+                $this->material_model->updaterow($path,$docid);
+                 $this->redirect('/admin/materials');
+            }else{
             $this->material_model->addNewDocument($doc_no,$course_id,$path);
-            //$this->redirect('/');
+            $this->redirect('/admin/materials');
+            }
         }else{
             $this->view->form=$form;
             $this->render();
         }
     }
+
+    
 
     public function deletematerialAction()
     {
@@ -346,6 +355,7 @@ class AdminController extends Zend_Controller_Action
         }
      // print_r($final_result);
         $assoc_rules_table = $this->assoc_rules_model->updateTable($final_result);
+        $this->redirect('/admin');
     
     }
 

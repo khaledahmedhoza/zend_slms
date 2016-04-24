@@ -93,7 +93,8 @@ class Application_Form_User extends Zend_Form
         $image = new Zend_Form_Element_File('image');
         $image->setLabel('Upload Your image');
         $image->setAttrib('class', 'form-control');
-        $image->setDestination('/var/www/html/slms/upload');
+        $destination = APPLICATION_PATH.'/../public/upload';
+        $image->setDestination($destination);
         
 
 

@@ -87,14 +87,19 @@ class UsersController extends Zend_Controller_Action
 
     public function courseAction()
     {
-       	$course_id = $this->_request->getParam('course_id');
+    $course_id = $this->_request->getParam('course_id');
 	$course_data = $this->course_model->getCourseInfo($course_id);
 	$course_comments = $this->comment_model->getCourseReviews($course_id);
+
+    $related_courses = $this->assoc_rules_model->getRelatedCourses($course_id);
+    $related_courses_names = $this->course_model->getCoursesNames($related_courses);
+
 	$this->view->assign('data',$course_data);
 	$this->view->assign('reviews',$course_comments);
+    $this->view->assign('related',$related_courses_names);
     }
 	
-    public function addCommentAction()
+    public function addcommentAction()
 	{
 		$doc_id = $this->_request->getParam('course_id');
 		$comment_text = $this->_request->getParam('com');
@@ -107,7 +112,7 @@ class UsersController extends Zend_Controller_Action
     public function startcourseAction()
     {
 
-       $course_id = $this->_request->getParam('course_id');
+    $course_id = $this->_request->getParam('course_id');
 	$doc_no = $this->_request->getParam('doc_no');
    
 	$doc_list = $this->material_model->listDocuments($course_id);
@@ -117,14 +122,12 @@ class UsersController extends Zend_Controller_Action
 	$authorization = Zend_Auth::getInstance();
 	$user_id = $authorization->getIdentity()->id;
 
-    $related_courses = $this->assoc_rules_model->getRelatedCourses($course_id);
-    $related_courses_names = $this->course_model->getCoursesNames($related_courses);
 
 	$this->view->assign('reviews',$doc_comments);
 	$this->view->assign('listdata',$doc_list);
 	$this->view->assign('document',$doc);
 	$this->view->assign('userid',$user_id);
-    $this->view->assign('related',$related_courses_names);
+    
     }
 
 

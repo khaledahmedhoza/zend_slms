@@ -1,18 +1,19 @@
 <br /><br />
 <div id="view-content">
 <!--add new material-->
-
+<div class="well list-group">
 	<?php
 		//print list of courses
 		$courses_list = $this->courses;
 		for($i=0;$i<count($courses_list);$i++){
-			echo $courses_list[$i]['course_name'];
+			echo "<div class='list-group-item'>".$courses_list[$i]['course_name'];
 			//show documents of course button
-			echo "<button onclick='show_materials(".$courses_list[$i]['id'].")' ><img src='/zend_p/zend_p/resources/next.png' width='10' height='10'></button>";
-			echo "<a href='".$this->baseUrl()."/admin/editmaterial/?course_id=".$courses_list[$i]['id']."'><button>add course material</button></a>";
-			echo "<div id='materials_area".$courses_list[$i]['id']."' ></div>";
+			echo "<button onclick='show_materials(".$courses_list[$i]['id'].")' ><span class='glyphicon  glyphicon-chevron-right' aria-hidden='true'></span></button>";
+			echo "<a href='".$this->baseUrl()."/admin/editmaterial/?course_id=".$courses_list[$i]['id']."'><button class='btn-primary' >add Document</button></a>";
+			echo "<div id='materials_area".$courses_list[$i]['id']."' ></div></div>";
 		}
 	?>
+	</div>
 <script>
 
 var is_materialshown =0;
@@ -21,18 +22,18 @@ var is_commentshown = 0;
 var show_materials = function(course_id){
 	if(is_materialshown == 0){
 		$.ajax({
-		url: "/zend_p/zend_p/public/admin/showmaterials/?course_id="+course_id+"",
+		url: "/admin/showmaterials/?course_id="+course_id+"",
 		dataType:'json',
 		
 		success:function(res){
 			//var result = JSON.stringify(res);
 			for(i=0;i<res.length;i++){
 				$("#materials_area"+course_id+"").append("<div id='doc"+res[i].id+"'></div>");
-				$("#doc"+res[i].id+"").append("<p>"+res[i].material.split('/')[4]+"</p>");
-	$("#doc"+res[i].id+"").append("<button onclick='show_comments("+course_id+","+res[i].doc_no+","+res[i].id+")'>comments</button>");
+				$("#doc"+res[i].id+"").append("<p>"+res[i].material.split('/')[9]+"</p>");
+	$("#doc"+res[i].id+"").append("<button class='btn-info' onclick='show_comments("+course_id+","+res[i].doc_no+","+res[i].id+")'>comments</button>");
 				
-				$("#doc"+res[i].id+"").append("<button onclick='del_material("+res[i].id+")'>delete</button>");
-				$("#doc"+res[i].id+"").append("<a href='/zend_p/zend_p/admin/editmaterial'><button>edit</button></a>");
+				$("#doc"+res[i].id+"").append("<button class='btn-danger' onclick='del_material("+res[i].id+")'>delete</button>");
+				$("#doc"+res[i].id+"").append("<a href='/admin/editmaterial/?course_id="+course_id+"&doc_id="+res[i].id+"'><button class='btn-warning'>edit</button></a>");
 				$("#doc"+res[i].id+"").append("<div id='com"+res[i].id+"' ></div>");
 			}
 			is_materialshown =1;
@@ -55,16 +56,16 @@ var show_comments = function(course_id,doc_no,doc_id){
 
 	if(is_commentshown == 0){
 		$.ajax({
-		url:'/zend_p/zend_p/public/admin/showmaterialcomments/?course_id='+course_id+'&doc_no='+doc_no+'',
+		url:'/admin/showmaterialcomments/?course_id='+course_id+'&doc_no='+doc_no+'',
 		dataType:'json',
 		success:function(res){
-$("#com"+doc_id+"").append("<button onclick='add_comment("+course_id+","+doc_no+","+doc_id+")'>add comment</button>");
+$("#com"+doc_id+"").append("<button class='btn-primary' onclick='add_comment("+course_id+","+doc_no+","+doc_id+")'>add comment</button>");
 			$("#doc"+doc_id+"").append("<div id='addnewcomment' ></div>");
 			for(i=0;i<res.length;i++){
 				$("#com"+doc_id+"").append("<div id='comid"+res[i].id+"'></div>");
 				$("#comid"+res[i].id+"").append("<p id='p"+res[i].id+"'>"+res[i].comment+"    "+res[i].username+"</p>");
-				$("#comid"+res[i].id+"").append("<button onclick='deletecomment("+res[i].id+")' >delete</button>");
-				$("#comid"+res[i].id+"").append("<button onclick='editcomment("+res[i].id+")' >edit</button>");
+				$("#comid"+res[i].id+"").append("<button class='btn-danger' onclick='deletecomment("+res[i].id+")' >delete</button>");
+				$("#comid"+res[i].id+"").append("<button class='btn=warning' onclick='editcomment("+res[i].id+")' >edit</button>");
 				$("#comid"+res[i].id+"").append("<div id='editarea"+res[i].id+"' ></div>"); 
 			}
 		is_commentshown=1;
@@ -87,7 +88,7 @@ var addnewcom = 0;
 var add_comment = function(course_id,doc_no,doc_id){
 if(addnewcom == 0){
 	$("#addnewcomment").append("<input type='text' id='add_comment'>");
-	$("#addnewcomment").append("<button onclick='addnewcomm("+course_id+","+doc_no+","+doc_id+")' >add</button>");
+	$("#addnewcomment").append("<button class='btn-success' onclick='addnewcomm("+course_id+","+doc_no+","+doc_id+")' >add</button>");
 	addnewcom = 1;
 }else{
 	$("#addnewcomment").empty();
@@ -99,7 +100,7 @@ if(addnewcom == 0){
 //add comment to view and database
 var addnewcomm = function(course_id,doc_no,doc_id){
 	var com = $("#add_comment").val();
-	var url = "/zend_p/zend_p/public/admin/addnewcomment/?course_id="+course_id+"&com="+com+"&doc_no="+doc_no+"";
+	var url = "/admin/addnewcomment/?course_id="+course_id+"&com="+com+"&doc_no="+doc_no+"";
 	var xhr = new XMLHttpRequest();
 	xhr.onreadystatechange = function(){
 				if(xhr.readyState =='4' && xhr.status=='200'){
@@ -116,7 +117,7 @@ var addnewcomm = function(course_id,doc_no,doc_id){
 
 //delete material
 var del_material = function(doc_id){
-	var url = "/zend_p/zend_p/public/admin/deletematerial/?doc_id="+doc_id+"";
+	var url = "/admin/deletematerial/?doc_id="+doc_id+"";
 		var xhr = new XMLHttpRequest();
 		xhr.onreadystatechange = function(){
 			if(xhr.readyState =='4' && xhr.status=='200'){
@@ -132,7 +133,7 @@ var del_material = function(doc_id){
 
 //delete comment
 var deletecomment = function(com_id){
-	var url = "/zend_p/zend_p/public/admin/deletecomment/?com_id="+com_id+"";
+	var url = "/admin/deletecomment/?com_id="+com_id+"";
 		var xhr = new XMLHttpRequest();
 		xhr.onreadystatechange = function(){
 			if(xhr.readyState =='4' && xhr.status=='200'){
@@ -164,7 +165,7 @@ var update_comment = function(com_id){
 	var updated_com = $("#edit_comment").val();
 	$("#editarea"+com_id+"").empty();
 	edit_area = 0;
-	var url = "/zend_p/zend_p/public/admin/updatecomment/?com_id="+com_id+"&com="+updated_com+"";
+	var url = "/admin/updatecomment/?com_id="+com_id+"&com="+updated_com+"";
 			var xhr = new XMLHttpRequest();
 			xhr.onreadystatechange = function(){
 				if(xhr.readyState =='4' && xhr.status=='200'){

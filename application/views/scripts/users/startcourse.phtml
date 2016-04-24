@@ -9,18 +9,42 @@
 		$reviews = $this->reviews;
 		$userid = $this->userid;
 		
-
-
+		echo "<div class='col-md-4'>";
+		echo "<div class='well list-group'>";
 		//get list of course's documents
+		$actual_doc = split('/',$document[0]['material'], 10);
 		for($i=0;$i<count($data_list);$i++){
-		$doc = split('/',$data_list[$i]['material'], 5);
+		$doc = split('/',$data_list[$i]['material'], 10);
 
 		//get type of file
-		$doc_type = split('\.',$doc[4],2);
+		$doc_type = split('\.',$actual_doc[9],2);
 
 		//each link map to new document
-		?><a href="<?php echo $this->baseUrl() ?>/users/startcourse/?course_id='<?php echo $data_list[$i]['course_id']?>'&doc_no='<?php  echo $data_list[$i]['doc_no']?>'"><p><?php echo $doc[4] ?></p></a><?php
+		?><a href="<?php echo $this->baseUrl() ?>/users/startcourse/?course_id='<?php echo $data_list[$i]['course_id']?>'&doc_no='<?php  echo $data_list[$i]['doc_no']?>'"><p class='list-group-item'><?php echo $data_list[$i]['doc_no']." : "; echo $doc[9]; ?></p></a><?php
 		}
+		echo "</div>";
+		?>
+			<!-- add comment to material -->
+		<input type="text" id="user_comment">
+		<input type="hidden" id="course_id" value="<?php echo $document[0]['course_id'] ?>" />
+		<button name="comment_btn" class='btn-info' onclick="add_comment(<?php echo $document[0]['doc_no'] ?>)">comment</button>
+
+		<div id="comment_area">
+		<?php
+		
+		for($i=0;$i<count($reviews);$i++){
+			echo "<div id='comid".$reviews[$i]['id']."'><p id='".$reviews[$i]['id']."' >".$reviews[$i]['comment']." /// ".$reviews[$i]['username']."<p>";
+			if($reviews[$i]['user_id'] == $userid){ 
+				echo "<button onclick='edit_comment(".$reviews[$i]['id'].")' class='btn-warning'>edit</button>";
+				echo "<div id='editarea".$reviews[$i]['id']."' ></div>";
+				echo "<button onclick='del(".$reviews[$i]['id'].")' class='btn-danger'>delete</button>";
+			}
+			echo "</div>";
+		}
+		?>	
+		</div>
+		</div>
+		<?php
 
 	//get my public ip
 	/*$curl_handle=curl_init();
@@ -32,46 +56,30 @@
 
 	//check download option
 	$locked = $document[0]['is_locked'];
-
+	echo "<div class='col-md-8'>";
 	//check the type of file
-	if($doc_type=='pdf'){
+	if($doc_type[1]=='pdf'){
 		//can't download
 		if($locked!=0){
-		?><iframe src="http://docs.google.com/gview?url=http://app<?php echo $document[0]['material'] ?>&embedded=true" 		style="width:600px; height:500px;" frameborder="0"></iframe> <?php
+		?><div class="embed-responsive embed-responsive-16by9"><iframe alt="" src="/upload/<?php echo $actual_doc[9]?>" ></iframe><?php
 		}else{
-			?><iframe src="<?php echo $document[0]['material']?>" width='600' height='380' style="border: none;"></iframe><?php
+			?>
+			<a href="/upload/<?php echo $actual_doc[9] ?>" download><button class='btn-primary'>download</button></a>
+			<div class="embed-responsive embed-responsive-16by9"><iframe alt="" src="/upload/<?php echo $actual_doc[9]?>" ></iframe></div><?php
 		}
 	}else{
 		//can't download
 		if($locked!=0){ ?>
-		 	<iframe src="<?php echo $document[0]['material'] ?>" width="600" height="380" style="border: none;"></iframe>
+		 	<div class="embed-responsive embed-responsive-16by9"><iframe alt="" src="/upload/<?php echo $actual_doc[9]?>" ></iframe></div>
 			<p><?php echo $document[0]['material'] ?></p>
 		<?php } else { ?>
-			<a href="<?php echo $document[0]['material']?>" download><button>download</button></a>
-			<iframe src="<?php echo $document[0]['material'] ?>" width="600" height="380" style="border: none;"></iframe>
+			<a href="/upload/<?php echo $actual_doc[9] ?>" download><button class='btn-primary'>download</button></a>
+			<div class="embed-responsive embed-responsive-16by9"><iframe alt="" src="/upload/<?php echo $actual_doc[9]?>" ></iframe></div>
 		<?php }
 	}
 		?>
-		<!-- add comment to material -->
-		<input type="text" id="user_comment">
-		<input type="hidden" id="course_id" value="<?php echo $document[0]['course_id'] ?>" />
-		<button name="comment_btn" onclick="add_comment(<?php echo $document[0]['doc_no'] ?>)">comment</button>
-
-		<div id="comment_area">
-		<?php
 		
-		for($i=0;$i<count($reviews);$i++){
-			echo "<div id='comid".$reviews[$i]['id']."'><p id='".$reviews[$i]['id']."' >".$reviews[$i]['comment']." /// ".$reviews[$i]['username']."<p>";
-			if($reviews[$i]['user_id'] == $userid){ 
-				echo "<button onclick='edit_comment(".$reviews[$i]['id'].")'>edit</button>";
-				echo "<div id='editarea".$reviews[$i]['id']."' ></div>";
-				echo "<button onclick='del(".$reviews[$i]['id'].")'>delete</button>";
-			}
-			echo "</div>";
-		}
-		?>	
 		</div>
-
 	</div>
 
 <script>
@@ -79,14 +87,16 @@
 var add_comment = function(doc_no){
 	var comment_text = $("#user_comment").val();
 	var course_id = $("#course_id").val();
-
+	$("#comment_area").append("<p>"+comment_text+"</p>");
 	if(comment_text!=""){
 		
-		var url = "/slms/public/users/addComment/?com="+comment_text+"&course_id="+course_id+"&doc_no="+doc_no+"";
+		var url = "/users/addComment/?com="+comment_text+"&course_id="+course_id+"&doc_no="+doc_no+"";
 		var xhr = new XMLHttpRequest();
 		xhr.onreadystatechange = function(){
+			$("#user_comment").val(" ");
+
 			if(xhr.readyState =='4' && xhr.status=='200'){
-			$("#course_id").val("");
+			
 			}
 		}
 		function senddata(){
@@ -99,11 +109,12 @@ var add_comment = function(doc_no){
 
 //delete comment of user
 var del = function(com_id){
-	var url = "/slms/public/users/delcomment/?com_id="+com_id+"";
+	var url = "/users/delcomment/?com_id="+com_id+"";
 		var xhr = new XMLHttpRequest();
 		xhr.onreadystatechange = function(){
-			if(xhr.readyState =='4' && xhr.status=='200'){
 			$("#comid"+com_id+"").hide();
+			if(xhr.readyState =='4' && xhr.status=='200'){
+			
 			}
 		}
 		function del_com(){
@@ -133,12 +144,13 @@ var update_comment = function(com_id){
 	var updated_com = $("#edit_comment").val();
 	$("#editarea"+com_id+"").empty();
 	edit_area = 0;
-	var url = "/slms/public/users/updatecomment/?com_id="+com_id+"&com="+updated_com+"";
+	var url = "/users/updatecomment/?com_id="+com_id+"&com="+updated_com+"";
 			var xhr = new XMLHttpRequest();
 			xhr.onreadystatechange = function(){
-				if(xhr.readyState =='4' && xhr.status=='200'){
 				$("#"+com_id+"").text(""+updated_com+"");
 				$("#editarea").hide();
+				if(xhr.readyState =='4' && xhr.status=='200'){
+				
 				}
 			}
 			function up_com(){

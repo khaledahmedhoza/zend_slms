@@ -35,5 +35,14 @@ class Application_Model_Materials extends Zend_Db_Table_Abstract
 		 $this->insert($data);
 	}
 
+	function getdoc($doc_id){
+		return $this->find($doc_id)->toArray();
+	}
+
+	function updaterow($path,$docid){
+		$arr = array('material'=>$path);
+		$this->update($arr,"id=$docid");
+	}
+
 }
 

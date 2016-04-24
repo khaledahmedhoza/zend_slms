@@ -20,7 +20,9 @@ class Application_Model_Users extends Zend_Db_Table_Abstract
 		
 	// 	return $this->insert($data);
 	// }
-
+    function listAllUsers(){
+        return $this->fetchAll()->toArray();
+    }
 
 	function updateElement($id,$elem,$elemName){
 		$params=array(

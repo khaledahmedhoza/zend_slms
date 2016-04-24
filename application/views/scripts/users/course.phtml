@@ -6,22 +6,28 @@
 		$related_courses = $this->related;
 
 		//recommend other courses to user
-		echo "you may also want to see <br>";
+		echo "<div class='well'><p class='panel-heading'>Recommended Courses</p><br>";
 		foreach ($related_courses as $key => $value) {
 		echo "<a href='".$this->baseUrl()."/users/course/?course_id=".$key."'><p>".$value."</p></a>";
 			echo "<br>";
-		}			
+		}	
+		echo "</div>";		
 	?>
-	
-<p>total enrolled : <?php echo $info['student_no']?> </p>
-<p>duration : <?php echo $info['duration'] ?> </p>
-<p>course description : <?php echo $info['course_desc'] ?>
-<a href="<?php echo $this->baseUrl() ?>/users/startcourse/?course_id=<?php echo $info['id'] ?>&doc_no=1"><button>start course</button></a> 
+
+<div class="well list-group">
+<p class="list-group-item">total enrolled : <?php echo $info['student_no']?>  students</p>
+<p class="list-group-item">duration : <?php echo $info['duration'] ?> weeks</p>
+<p class="list-group-item">course description : <?php echo $info['course_desc'] ?></p>
+<a href="<?php echo $this->baseUrl() ?>/users/startcourse/?course_id=<?php echo $info['id'] ?>&doc_no=1"><button class="btn-success">start course</button></a> 
+</div>
+<div class="well list-group">
 <p>Reviews</p>
 <?php
 
 for($i=0;$i<count($this->reviews);$i++){
-echo "<p>".$comments['comment']." /// ".$comments['username']."<p>";
+echo "<p class='list-group-item' >".$comments['comment']."</p><pre>                </pre><p class='list-group-item'>".$comments['username']."<p>";
 }
 ?>
+</div>
+</div>
 </div>
