@@ -1,7 +1,7 @@
 <?php
 /*
- Root User: adminM6dxAjP
-   Root Password: jAAJvfv64u1H
+ Root User: admineVzSrBj
+   Root Password: MNCjRyPFySij
    Database Name: et3lm
 
 */
